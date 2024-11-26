@@ -6,10 +6,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['usuario']) && isset($_G
     $usuario = $_GET['usuario'];
     $contraseña = $_GET['contraseña'];
     try {
-        if (login($usuario, $contraseña)) {
+        if (login($usuario, $contraseña)) { //si es true entra
             escribeUsuario($usuario);
             escribePrestamos($usuario);
-        } else {
+        } else { // si es false sale al else
             echo "Error: Usuario o contraseña incorrectos.";
         }
     } catch (Exception $e) {

@@ -123,9 +123,10 @@
     {
         global $usuarios;
 
-        if (isset($usuarios[$usu])) {
-            $datosUsuario = $usuarios[$usu];
+        if (isset($usuarios[$usu])) { //si esta definida
+            $datosUsuario = $usuarios[$usu]; //pasamos el array de datos de usu a una variable
 
+            //mostramos los datos
             echo $datosUsuario["apellido1"] . " " . $datosUsuario["apellido2"] . ", " . $datosUsuario["nombre"];
             echo " (" . $datosUsuario["edad"] . ")<br>";
             echo "Está con nosotros desde el " . $datosUsuario['fecha alta'] . ".";
