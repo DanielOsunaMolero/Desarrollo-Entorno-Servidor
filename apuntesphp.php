@@ -111,10 +111,76 @@
         if (empty($pw)) {
             throw new Exception("ERROR DEL SISTEMA: La contraseña no puede estar vacía.");
         }
-        return isset($usuarios[$usu]) && $usuarios[$usu]['contraseña'] === $pw;
+
+        if (comprobar_contraseña($pw)== true) {
+            return isset($usuarios[$usu]) && $usuarios[$usu]['contraseña'] === $pw;
+        }
+
+        
     }
 
 
+    function comprobar_contraseña($contraseña) {
+
+        // Comprobando si está dentro de los límites permitidos
+        if (strlen($contraseña) < 6 || strlen($contraseña) > 15) {
+            echo "La contraseña debe tener entre 6 y 15 caracteres.\n";
+            return false;
+        }
+
+        // Inicializamos los indicadores para las condiciones
+        $tieneNumero = false;
+        $tieneMayuscula = false;
+        $tieneMinuscula = false;
+        $tieneCaracterEspecial = false;
+
+        // Recorremos cada carácter de la cadena
+        for ($i = 0; $i < strlen($contraseña); $i++) {
+            $letra = $contraseña[$i];
+
+            // Comprobamos si es un número
+            if (is_numeric($letra)) {
+                $tieneNumero = true;
+            }
+
+            // Comprobamos si es una letra mayúscula
+            if (ctype_upper($letra)) {
+                $tieneMayuscula = true;
+            }
+
+            // Comprobamos si es una letra minúscula
+            if (ctype_lower($letra)) {
+                $tieneMinuscula = true;
+            }
+
+            // Comprobamos si es un carácter no alfanumérico
+            if (!ctype_alnum($letra)) {
+                $tieneCaracterEspecial = true;
+            }
+        }
+
+   
+        if (!$tieneNumero) {
+            echo "La contraseña debe tener al menos un número.\n";
+            return false;
+        }
+        if (!$tieneMayuscula) {
+            echo "La contraseña debe tener al menos una letra mayúscula.\n";
+            return false;
+        }
+        if (!$tieneMinuscula) {
+            echo "La contraseña debe tener al menos una letra minúscula.\n";
+            return false;
+        }
+        if (!$tieneCaracterEspecial) {
+            echo "La contraseña debe tener al menos un carácter especial.\n";
+            return false;
+        }
+
+
+        echo "La contraseña es válida.\n";
+        return true;
+    }
     ?>
 </body>
 </html>

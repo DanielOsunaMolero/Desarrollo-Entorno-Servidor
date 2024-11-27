@@ -9,7 +9,7 @@
     <?php
     class Coche{
     
-        public  $color;
+        public $color;
         public $marca;
         public $modelo;
         public $velocidad;
@@ -147,6 +147,13 @@
                 $this->modelo = $modelo;
 
                 return $this;
+        }
+
+        public function acelerar($velocidad){
+            $velocidad = $velocidad+1;
+        }
+        public function frenar($velocidad){
+            $velocidad = $velocidad-1;
         }
     }
     
