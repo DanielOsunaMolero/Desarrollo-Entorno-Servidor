@@ -2,15 +2,17 @@
 <?php
 include 'datos.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['usuario']) && isset($_GET['contraseña'])) {
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['usuario']) && isset($_GET['pw'])) {
     $usuario = $_GET['usuario'];
-    $contraseña = $_GET['contraseña'];
+    $pw = $_GET['pw'];
     try {
-        if (login($usuario, $contraseña)) { //si es true entra
+        if (login($usuario, $pw)) { //si es true entra
             escribeUsuario($usuario);
             escribePrestamos($usuario);
+            listarLibrosDisponibles();
+
         } else { // si es false sale al else
-            echo "Error: Usuario o contraseña incorrectos.";
+            echo "Error: Usuario o pw incorrectos.";
         }
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -20,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['usuario']) && isset($_G
     <form method="get" action="index.php">
         <label for="usuario">Usuario:</label>
         <input type="text" id="usuario" name="usuario" required><br><br>
-        <label for="contraseña">Contraseña:</label>
-        <input type="password" id="contraseña" name="contraseña" required><br><br>
+        <label for="pw">pw:</label>
+        <input type="password" id="pw" name="pw" required><br><br>
         <input type="submit" value="Iniciar sesión">
     </form>
 <?php

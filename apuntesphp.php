@@ -66,6 +66,7 @@
     // strcasecmp() si no queremos diferenciar entre mayusculas y minusculas
     //rand(rango1,rango2) --> generar numero aleatorio
 
+    //pregmatch para expresiones regulares
     /* definicion de un array como el profesor quiere+
     $productos = [
         ["nombre" => "Televisor", "precio" => 400, "stock" => 10],
@@ -114,6 +115,8 @@
 
         if (comprobar_contraseña($pw)== true) {
             return isset($usuarios[$usu]) && $usuarios[$usu]['contraseña'] === $pw;
+
+            
         }
 
         
