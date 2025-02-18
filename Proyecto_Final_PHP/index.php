@@ -14,9 +14,9 @@
   if (class_exists($nombre_controlador)) {
     $controlador = new $nombre_controlador();
     
-    if (isset($_GET['accion']) && method_exists($controlador, $_GET['accion'])) {
-      $accion = $_GET['accion'];
-      $controlador->$accion();
+    if (isset($_GET['action']) && method_exists($controlador, $_GET['action'])) {
+      $action = $_GET['action'];
+      $controlador->$action();
     } 
     else {
       echo "La página que buscas no existe";
