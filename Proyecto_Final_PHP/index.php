@@ -2,6 +2,9 @@
   session_start();
 
   require_once 'autoload.php';
+  require_once 'views/layout/header.php';
+  require_once 'views/layout/main.php';
+  require_once 'views/layout/footer.php';
 
   if (isset($_GET['controller'])) {
     $nombre_controlador = $_GET['controller'] . 'Controller';
