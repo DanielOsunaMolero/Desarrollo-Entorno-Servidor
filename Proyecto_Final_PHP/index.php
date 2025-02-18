@@ -3,7 +3,8 @@
 
   require_once 'autoload.php';
   require_once 'views/layout/header.php';
-  require_once 'views/layout/main.php';
+  require_once 'views/layout/sidebar.php';
+  require_once 'views/producto/destacados.php';
   require_once 'views/layout/footer.php';
 
   if (isset($_GET['controller'])) {

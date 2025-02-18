@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Tienda de Balones</title>
+  <title>Tienda de Camisetas</title>
   <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
@@ -13,7 +13,7 @@
   <div id="container">
     <header>
       <div id="logo">
-        <img src="./assets/img/Balón_CRV_768x768.png">
+        <img src="./controllers/assets/img/Balón_CRV_768x768.png">
         <a href="index.php">Tienda de camiseta</a>
       </div>
     </header>
@@ -29,7 +29,7 @@
     </nav>
 
     <main>
-      <section id="lateral">
+      <aside id="lateral">
         <div id="login" class="block_aside">
           <h3>Entrar a la web</h3>
           <form action="" method="POST">
@@ -45,24 +45,24 @@
             <li><a href="">Gestionar categorias</a></li>
           </ul>
         </div>
-      </section>
+      </aside>
 
       <div id="principal">
         <h1>Productos destacados</h1>
         <div id="products">
-          <img src="./assets/img/Balón_CRV_768x768.png">
+          <img src="./controllers/assets/img/Balón_CRV_768x768.png">
           <h2>Balón CRV</h2>
           <p>50€</p>
           <a href="" class="btn">Comprar</a>
         </div>
         <div id="products">
-          <img src="./assets/img/Balón_CRV_768x768.png">
+          <img src="./controllers/assets/img/Balón_CRV_768x768.png">
           <h2>Balón CRV</h2>
           <p>50€</p>
           <a href="" class="btn">Comprar</a>
         </div>
         <div id="products">
-          <img src="./assets/img/Balón_CRV_768x768.png">
+          <img src="./controllers/assets/img/Balón_CRV_768x768.png">
           <h2>Balón CRV</h2>
           <p>50€</p>
           <a href="" class="btn">Comprar</a>
