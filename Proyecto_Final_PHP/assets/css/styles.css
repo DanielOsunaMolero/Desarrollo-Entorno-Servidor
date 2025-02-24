@@ -6,7 +6,7 @@
 
 body {
   background-image: url('../img/bg.png');
-  font-family: 'Arial';
+  font-family:'Times New Roman', Times, serif;
 }
 
 a {
@@ -21,7 +21,7 @@ a:hover {
 
 /* CONTAINER */
 #container {
-  width: 80%;
+  width: 100%;
   margin: auto;
   box-shadow: 0 0 10px #808080;
   background-color: #fff;
@@ -30,18 +30,21 @@ a:hover {
 /* HEADER */
 header {
   height: 140px;
-  background-color: #f0f0f0;
-  margin-top: 70px;
+  background-color: #424242;
+  
 }
 
 #logo {
   padding: 20px;
   margin-left: 20px;
+  justify-self: center;
 }
 
 #logo img {
   height: 100px;
   float: left;
+  border-radius: 10px;
+  border: #000 2px solid;
 }
 
 #logo a {
@@ -49,7 +52,7 @@ header {
   font-size: 40px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: #01b1ea;
+  color: #b3ff00;
   font-weight: bold;
   text-decoration: none;
   margin-top: 25px;
@@ -67,36 +70,37 @@ nav {
   clear: both;
   background-color: #222;
   height: 55px;
-  border-bottom: 4px solid #01b1ea;
+  border-bottom: 4px solid #000000;
+  width: 100%;
+  justify-items: center;
 }
 
 nav ul {
   list-style-type: none;
   margin: auto;
-  margin-left: 25px;
+  
+  
 }
 
 nav ul li {
   line-height: 55px;
   float: left;
-  border-right: 1px solid #363636;
+  border-right: 1px solid #000000;
 }
 
 nav a {
   display: block;
-  color: #fff;
+  color: #eeff00;
   text-decoration: none;
   padding-left: 10px;
   padding-right: 10px;
   transition: background-color .3s;
+  
 }
 
-nav a:first-child {
-  border-left: 1px solid #363636;
-}
 
 nav a:hover {
-  background-color: #01b1ea;
+  background-color: #e0f372;
   text-decoration: none;
   color: #fff;
 }
@@ -109,7 +113,7 @@ main {
 }
 
 #lateral {
-  width: 25%;
+  width: 35%;
   float: left;
   margin-top: 20px;
   margin-left: 10px;
@@ -137,25 +141,24 @@ main {
   border-bottom: 2px solid #01b1ea;
 }
 
-#lateral ul {
-  list-style-type: square;
-  margin-left: 20px;
-  margin-top: 20px;
+.enlaces{
+text-align: center;
+margin-top: 30px;
+.a{
+  margin-top: 10px;
 }
-
-#lateral ul li {
-  margin-top: 8px;
-  margin-bottom: 8px;
 }
 
 /* MAIN - CONTENIDO PRINCIPAL */
 #principal {
-  width: 74%;
+  
+  width: 60%;
   min-height: 500px;
   float: right;
   border-left: 1px solid #ccc;
   box-shadow: -5px -1px 5px #ddd;
   padding: 25px;
+  justify-content: center;
   
 }
 
@@ -219,14 +222,15 @@ button, .btn {
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  color: #fff;
-  background-color: #2979cd;
-  border: 1px solid #11608e;
+  color: #000000;
+  background-color: #1eff00;
+  border: 1px solid #000000;
   cursor: pointer;
+  
 }
 
 .btn {
-  background-color: #33ae3d;
+  background-color: #23e930;
   text-decoration: none;
   border: 0;
 }
@@ -256,11 +260,12 @@ label, button {
 
 /* PRODUCTOS */
 #products {
-  width: 30%;
+  width: 60%;
   float: left;
   margin: 0 10px 0 10px;
   text-align: center;
   margin-bottom: 25px;
+  margin-left: 20%;
 }
 
 #products h2 {
@@ -269,7 +274,9 @@ label, button {
 }
 
 #products img {
-  height: 120px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid black;
 }
 
 #products h2, #products img, #products p {

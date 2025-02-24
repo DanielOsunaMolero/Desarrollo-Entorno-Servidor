@@ -1,6 +1,6 @@
 <?php
   session_start();
-
+  require_once 'config/parameters.php';
   require_once 'autoload.php';
   require_once 'views/layout/header.php';
   require_once 'views/layout/sidebar.php';
@@ -9,8 +9,12 @@
 
   if (isset($_GET['controller'])) {
     $nombre_controlador = $_GET['controller'] . 'Controller';
-  } else {
-    echo "La página que buscas no existe";
+  }elseif(!isset($_GET['controller'])&& !isset($_GET['action'])){
+    $nombre_controlador = controler_default;
+
+  }else {
+    $error=new errorController();
+    $error->index();
     exit();
   }
 
@@ -21,12 +25,20 @@
     if (isset($_GET['action']) && method_exists($controlador, $_GET['action'])) {
       $action = $_GET['action'];
       $controlador->$action();
-    } 
+
+    }elseif(!isset($_GET['controller'])&& !isset($_GET['action'])){
+      $accion_default = action_default;
+      $controlador->$accion_default();
+  
+    }
     else {
-      echo "La página que buscas no existe";
+      $error=new errorController();
+    $error->index();
     }
   } else {
-    echo "La página que buscas no existe";
+    $error=new errorController();
+    $error->index();
+
   }
 
   ?>

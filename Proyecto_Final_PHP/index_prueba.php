@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Tienda de Camisetas</title>
+  <title>Tienda de Balones</title>
   <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
@@ -13,8 +13,8 @@
   <div id="container">
     <header>
       <div id="logo">
-        <img src="./controllers/assets/img/Balón_CRV_768x768.png">
-        <a href="index.php">Tienda de camiseta</a>
+        <img src="./assets/img/Balón_CRV_768x768.png">
+        <a href="./index.php">Tienda de Balones</a>
       </div>
     </header>
 
@@ -39,30 +39,34 @@
             <input type="password" name="password" id="password">
             <button type="submit">Ingresar</button>
           </form>
-          <ul>
-            <li><a href="">Mis pedidos</a></li>
-            <li><a href="">Gestionar pedidos</a></li>
-            <li><a href="">Gestionar categorias</a></li>
-          </ul>
+          
+          <div class="enlaces">
+          <a href="">Mis pedidos</a>
+          <br>
+          <a href="">Gestionar pedidos</a>
+          <br>
+          <a href="">Gestionar categorias</a>
+          </div>
+          
         </div>
       </aside>
 
       <div id="principal">
         <h1>Productos destacados</h1>
         <div id="products">
-          <img src="./controllers/assets/img/Balón_CRV_768x768.png">
+          <img src="./assets/img/Balón_CRV_768x768.png">
           <h2>Balón CRV</h2>
           <p>50€</p>
           <a href="" class="btn">Comprar</a>
         </div>
         <div id="products">
-          <img src="./controllers/assets/img/Balón_CRV_768x768.png">
+          <img src="./assets/img/Balón_CRV_768x768.png">
           <h2>Balón CRV</h2>
           <p>50€</p>
           <a href="" class="btn">Comprar</a>
         </div>
         <div id="products">
-          <img src="./controllers/assets/img/Balón_CRV_768x768.png">
+          <img src="./assets/img/Balón_CRV_768x768.png">
           <h2>Balón CRV</h2>
           <p>50€</p>
           <a href="" class="btn">Comprar</a>
