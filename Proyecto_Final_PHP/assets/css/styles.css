@@ -15,7 +15,18 @@ a {
   background-color: rgb(0, 0, 0);
   padding: 5px;
   border: #bbff00 2px solid;
+  
 }
+
+.botones-sidebar{
+  margin-top: 20px;
+
+
+    .a{
+      padding: 20px;
+    }
+  }
+
 
 a:hover {
   color: #555;

@@ -10,7 +10,7 @@ session_start();
 require_once 'autoload.php'; // Archivo autoload
 require_once 'config/db.php'; //Conexión a la base de datos.
 require_once 'config/parameters.php'; // archivo de parametros
-
+require_once 'helpers/utils.php';
 require_once 'views/layout/header.php'; // layout header vista
 require_once 'views/layout/sidebar.php'; // layout sidebar vista
 

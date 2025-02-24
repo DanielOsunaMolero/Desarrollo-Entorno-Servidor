@@ -5,6 +5,9 @@
 <?php elseif(isset($_SESSION['register']) && $_SESSION['register'] == 'failed'): ?>
 <strong class="alert_red">Registro fallido</strong> 
 <?php endif;?>
+<?php Utils::deleteSession('register');?> 
+<!-- Para borrar la sesion -->
+
 
 <form action="<?=base_url?>usuario/save" method="POST">
     <label for="nombre">Nombre</label>

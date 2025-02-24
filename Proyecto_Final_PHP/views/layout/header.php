@@ -14,6 +14,6 @@
     <header>
       <div id="logo">
         <img src="<?=base_url?>./assets/img/Balón_CRV_768x768.png">
-        <a href="index.php">Balones Osuna</a>
+        <a href="index.php" class="palabra-header">Balones Osuna</a>
       </div>
     </header>
