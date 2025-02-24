@@ -10,8 +10,11 @@ body {
 }
 
 a {
-  color: #01b1ea;
+  color: #bbff00;
   text-decoration: none;
+  background-color: rgb(0, 0, 0);
+  padding: 5px;
+  border: #bbff00 2px solid;
 }
 
 a:hover {
@@ -109,7 +112,7 @@ nav a:hover {
 main {
   margin: auto;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #928e8e;
 }
 
 #lateral {
@@ -127,19 +130,6 @@ main {
   padding: 10px;
 }
 
-#lateral h3{
-  display: block;
-  color: #222;
-  width: 100%;
-  text-align: center;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #e1e1e1;
-  border-bottom: 2px solid #01b1ea;
-}
 
 .enlaces{
 text-align: center;
@@ -155,9 +145,7 @@ margin-top: 30px;
   width: 60%;
   min-height: 500px;
   float: right;
-  border-left: 1px solid #ccc;
-  box-shadow: -5px -1px 5px #ddd;
-  padding: 25px;
+  border-left: 3px solid #ccc;
   justify-content: center;
   
 }
@@ -167,9 +155,12 @@ margin-top: 30px;
   font-weight: normal;
   text-align: center;
   letter-spacing: 1px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 3px solid #ccc;
+  border-right: 3px solid #ccc;
+  border-top: 3px solid #ccc;
   padding: 10px;
   margin-bottom: 20px;
+  background-color: #747373;
 }
 
 /* FORMULARIOS */
@@ -205,9 +196,9 @@ button, .button{
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  color: white;
-  background: #2979CD;
-  border: 1px solid #11608E;
+  color: rgb(217, 255, 5);
+  background: rgb(0, 0, 0);
+  border: 2px solid #fbff00;
   cursor: pointer;
   
 }
@@ -238,12 +229,15 @@ button{
 
 /* PRODUCTOS */
 #products {
-  width: 60%;
   float: left;
   margin: 0 10px 0 10px;
   text-align: center;
   margin-bottom: 25px;
   margin-left: 20%;
+  background-color: rgb(222, 240, 198);
+  padding: 15px;
+  border-radius: 20px;
+  border: 2px solid black;
 }
 
 #products h2 {
@@ -252,7 +246,7 @@ button{
 }
 
 #products img {
-  height: 200px;
+  height: 150px;
   border-radius: 10px;
   border: 2px solid black;
 }
@@ -286,6 +280,7 @@ button{
 #detalle-producto .btn {
   width: 200px;
   text-align: center;
+  
 }
 
 .descripcion {
@@ -310,7 +305,7 @@ footer {
   padding: 10px;
   color: #fff;
   background-color: #222;
-  border-top: 4px solid #01b1ea;
+
 }
 
 /* CARRITO */

@@ -1,7 +1,7 @@
 </main>
 
 <footer>
-      <p>&copy; Desarrollador por DanielOsuna | <?= date('Y'); ?></p>
+      <p> Daniel Osuna  </p>
     </footer>
   </div>
 </body>

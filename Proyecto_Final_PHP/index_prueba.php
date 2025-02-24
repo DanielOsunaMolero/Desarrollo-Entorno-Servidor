@@ -14,7 +14,7 @@
     <header>
       <div id="logo">
         <img src="./assets/img/Balón_CRV_768x768.png">
-        <a href="./index.php">Tienda de Balones</a>
+        <a href="index.php">Tienda de Balones</a>
       </div>
     </header>
 
