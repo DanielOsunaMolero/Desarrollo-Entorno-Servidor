@@ -34,5 +34,17 @@ class Categoria{
         return $categorias;
     }
 
+    //Método para guardar categorías
+    public function save() {
+        $sql = "INSERT INTO categorias VALUES(NULL, '{$this->getNombre()}');";
+       $save = $this->db->query($sql);
+       
+       $result = false;
+       if($save){
+          $result = true; 
+       }
+       return $result;
+   }
+
 }
 ?>

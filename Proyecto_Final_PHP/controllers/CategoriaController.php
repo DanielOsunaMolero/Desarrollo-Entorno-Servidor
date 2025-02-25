@@ -13,10 +13,23 @@ class categoriaController{
     }
 
     public function crear() {
-        // comprobando que el usuario es admin
-        
+
+        Utils::isAdmin();
         // Incluyendo la vista para la creación de las categorías
         require_once 'views/categoria/crear.php';
+    }
+    
+    //guardar las nuevas categorías
+    public function save() {
+
+        Utils::isAdmin();
+        if(isset($_POST) && isset($_POST['nombre'])){
+            $categoria = new Categoria();
+            $categoria->setNombre($_POST['nombre']);
+            $categoria->save();
+        }
+
+        header("Location:".base_url."categoria/index");
     }
     
 }

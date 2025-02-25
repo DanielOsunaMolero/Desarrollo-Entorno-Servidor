@@ -22,11 +22,12 @@
           <input type="password" name="password">
           <input type="submit" value="Entrar">
         </form>
+        
       <?php else: ?>
         <h3><?= $_SESSION['identity']->nombre ?> <?= $_SESSION['identity']->apellidos ?></h3>
       <?php endif; ?>
       <ul class="botones-sidebar">
-        
+      <li><a href="<?= base_url ?>usuario/registro">Registrate Aquí</a></li>
         <?php if (isset($_SESSION['admin'])): ?>
 
           <li><a href="">Gestionar pedidos</a></li>

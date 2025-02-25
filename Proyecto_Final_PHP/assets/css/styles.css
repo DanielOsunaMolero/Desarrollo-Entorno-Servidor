@@ -134,7 +134,7 @@ main {
   margin-top: 20px;
   margin-left: 10px;
   min-height: 500px;
-  border: 2px solid black;
+  
   
 }
 
@@ -176,6 +176,7 @@ margin-top: 30px;
   background-color: #01b1ea;
   
   
+  
 }
 
 #principal h1 {
@@ -189,14 +190,18 @@ margin-top: 30px;
   padding: 10px;
   margin-bottom: 20px;
   background-color: #f69393;
+  
 }
 
 /* FORMULARIOS */
 .form_container{
-  width: 50%;
+  width: 40%;
+  
 
   
+  
 }
+
 
 input[type="text"],
 input[type="password"],
@@ -210,6 +215,7 @@ select, textarea{
   width: 45%;
   color: gray;
   transition: all 300ms;
+  
 
   
 }
