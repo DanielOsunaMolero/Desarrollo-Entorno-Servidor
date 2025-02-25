@@ -57,7 +57,7 @@ class usuarioController{
 
             if($identity && is_object($identity)){
                 $_SESSION['identity'] = $identity;
-                //Comprobamos si es administrador o no
+                //Comprobamos si es  o no
                 if($identity->rol == 'admin'){
                     $_SESSION['admin'] = true;
                 }

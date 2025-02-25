@@ -1,3 +1,5 @@
+<form action="<?=base_url?>producto/destacados" method="POST">
+
 <div id="principal">
         <h1>Productos destacados</h1>
         <div id="products">
@@ -19,6 +21,4 @@
           <a href="" class="btn">Comprar</a>
         </div>
       </div>
-
-
-      
+      </form>
