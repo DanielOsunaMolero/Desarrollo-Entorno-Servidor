@@ -1,12 +1,4 @@
-<nav>
-  <ul>
-    <!-- <li><a href="">Inicio</a></li>
-        <li><a href="">Categoria 1</a></li>
-        <li><a href="">Categoria 2</a></li>
-        <li><a href="">Categoria 3</a></li>
-        <li><a href="">Categoria 4</a></li> -->
-  </ul>
-</nav>
+
 
 <main>
   <aside id="lateral">
@@ -27,7 +19,7 @@
         <h3><?= $_SESSION['identity']->nombre ?> <?= $_SESSION['identity']->apellidos ?></h3>
       <?php endif; ?>
       <ul class="botones-sidebar">
-      <li><a href="<?= base_url ?>usuario/registro">Registrate Aquí</a></li>
+      <a href="<?= base_url ?>usuario/registro">Registrate Aquí</a>
         <?php if (isset($_SESSION['admin'])): ?>
 
           <li><a href="">Gestionar pedidos</a></li>
