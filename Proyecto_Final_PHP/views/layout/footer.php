@@ -1,7 +1,7 @@
 </main>
 
 <footer>
-      <p> Daniel Osuna  </p>
+        <p>&copy; 2025 CRV SHOP. Todos los derechos reservados.</p>
     </footer>
   </div>
 </body>

@@ -1,18 +1,26 @@
-<h1 style="text-align: center; margin-top:10px">Gestionar Categorias</h1>
+<div id="gestionar-categorias">
+    <h1>Gestionar Categorías</h1>
 
-<a href="<?=base_url?>categoria/crear" class="boton_crear">
-    Crear Categoria
-</a>
+    <a href="<?=base_url?>categoria/crear" class="boton_crear">
+        Crear Categoría
+    </a>
 
-<table>
-    <tr>    
-        <th>ID</th>
-        <th>NOMBRE</th>
-    </tr>
-    <?php while($cat = $categorias->fetch_object()): ?>
-    <tr>    
-        <td><?=$cat->id;?></td>
-        <td><?=$cat->nombre;?></td>
-    </tr>
-    <?php endwhile; ?>
-</table>
+    <div class="tabla-container">
+        <table>
+            <thead>
+                <tr>    
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while($cat = $categorias->fetch_object()): ?>
+                <tr>    
+                    <td><?=$cat->id;?></td>
+                    <td><?=$cat->nombre;?></td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
