@@ -99,4 +99,25 @@ class Producto{
         $productos = $this->db->query("SELECT * FROM productos ORDER BY id DESC;");
         return $productos;
     }
+
+    //Escogemos uno aleatorio 
+    public function getRandom($limit) {
+        $productos = $this->db->query("SELECT * FROM productos ORDER BY RAND() LIMIT $limit;");
+        return $productos;
+    }
+
+    public function save(){
+        $sql = "INSERT INTO productos"
+                . " VALUES(NULL,{$this->getCategoria_id()}, '{$this->getNombre()}', '{$this->getDescripcion()}', "
+                . "{$this->getPrecio()}, {$this->getStock()}, 0"
+                . ", CURDATE(), '{$this->getImagen()}');";
+        $save = $this->db->query($sql);
+    //La oferta siempre tiene 0
+        
+        $result = false;
+        if($save){
+           $result = true; 
+        }
+        return $result;
+    }
 }

@@ -281,9 +281,7 @@ label, input[type="button"]{
   flex-direction: column; /* Asegura que los elementos se coloquen en columna */
   align-items: center; /* Centra el contenido */
   text-align: center;
-  
   padding: 10px;
-  
   border-radius: 20px;
   height: 100%; /* Asegura que todos los productos tengan la misma altura */
 }
@@ -296,12 +294,18 @@ label, input[type="button"]{
   margin-bottom: 10px; /* Separa la imagen del título */
 }
 
+.product a{
+  text-decoration: none;
+}
 /* TEXTO DEL PRODUCTO */
 .product h2 {
   font-size: 18px;
   color: #ffffff;
-  margin-bottom: 5px;
+  
+
 }
+
+
 
 /* PRECIO */
 .product p {
