@@ -14,11 +14,12 @@
     <header>
       <div id="logo">
         <img src="<?=base_url?>./assets/img/Balón_CRV_768x768.png">
-        <a href="index.php" class="palabra-header">CRV SHOP</a>
+        <a href="<?=base_url?>" class="palabra-header">CRV SHOP</a>
       </div>
     </header>
 
-    <?php $categorias = Utils::showCategorias(); ?>
+    <?php $categorias = Utils::showCategorias(); ?> 
+    <!-- Llama a utils para mostrar las categorias en el navegador -->
             <nav id="menu">
                 <ul>
                     <li>
