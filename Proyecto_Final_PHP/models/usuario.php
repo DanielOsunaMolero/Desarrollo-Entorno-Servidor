@@ -110,6 +110,24 @@ class Usuario
         return $result;
     }
 
+    public function saveAdmin()
+    {
+        $sql = "INSERT INTO usuarios"
+            . " VALUES(NULL, '{$this->getNombre()}', '{$this->getApellidos()}', "
+            . "'{$this->getEmail()}', '{$this->getPassword()}', '{$this->getRol()}'"
+            . ", NULL);";
+        $save = $this->db->query($sql);
+
+        return $save ? true : false;
+    }
+
+
+    public function crear()
+    {
+        Utils::isAdmin(); // Solo administradores pueden acceder
+        require_once './views/usuario/crear.php';
+    }
+
     public function update()
     {
         $sql = "UPDATE usuarios SET "
@@ -122,6 +140,14 @@ class Usuario
         $update = $this->db->query($sql);
         return $update ? true : false;
     }
+
+    public function delete()
+{
+    $sql = "DELETE FROM usuarios WHERE id = {$this->getId()}";
+    $delete = $this->db->query($sql);
+    return $delete ? true : false;
+}
+
 
     // Método para obtener todos los usuarios para el admin
     public function getAll()

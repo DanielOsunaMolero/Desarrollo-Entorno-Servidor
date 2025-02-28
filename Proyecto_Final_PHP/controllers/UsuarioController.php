@@ -60,6 +60,48 @@ class usuarioController
         header("Location:" . base_url . "usuario/registro");
     }
 
+    public function saveAdmin() {
+        Utils::isAdmin(); // Solo los administradores pueden crear usuarios
+    
+        if(isset($_POST)){
+            $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false; 
+            $apellidos = isset($_POST['apellidos']) ? $_POST['apellidos'] : false; 
+            $email = isset($_POST['email']) ? $_POST['email'] : false; 
+            $password = isset($_POST['password']) ? $_POST['password'] : false; 
+            $rol = isset($_POST['rol']) ? $_POST['rol'] : 'user'; // Si no selecciona, es 'user' por defecto
+            
+            if($nombre && $apellidos && $email && $password){
+                $usuario = new Usuario();
+                $usuario->setNombre($nombre);
+                $usuario->setApellidos($apellidos);
+                $usuario->setEmail($email);
+                $usuario->setPassword($password);
+                $usuario->setRol($rol); // Se establece el rol
+    
+                $save = $usuario->saveAdmin();
+    
+                if($save){
+                    $_SESSION['register'] = "complete";
+                } else {
+                    $_SESSION['register'] = "failed";
+                } 
+            } else {
+                $_SESSION['register'] = "failed";
+            }
+        } else {
+            $_SESSION['register'] = "failed";
+        }
+    
+        header("Location:".base_url."usuario/gestion");
+    }
+
+    public function crear() {
+        Utils::isAdmin(); // Solo administradores pueden acceder
+        require_once './views/usuario/crear.php';
+    }
+    
+    
+
     public function editar()
     {
         Utils::isAdmin();
@@ -96,6 +138,28 @@ class usuarioController
         }
         header("Location:" . base_url . "usuario/gestion");
     }
+
+    public function eliminar() {
+        Utils::isAdmin(); // Solo administradores pueden eliminar usuarios
+    
+        if(isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $usuario = new Usuario();
+            $usuario->setId($id);
+            $delete = $usuario->delete();
+    
+            if($delete) {
+                $_SESSION['delete'] = 'complete';
+            } else {
+                $_SESSION['delete'] = 'failed';
+            }
+        } else {
+            $_SESSION['delete'] = 'failed';
+        }
+    
+        header("Location:".base_url."usuario/gestion");
+    }
+    
 
     //Método para Login de usuarios
     public function login()

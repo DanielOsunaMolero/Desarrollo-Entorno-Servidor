@@ -1,5 +1,5 @@
 <div id="gestion-productos">
-    <h1>GESTION PRODUCTOS</h1>
+    <h1>Gestion Productos</h1>
 
     <a href="<?= base_url ?>producto/crear" class="boton_crear2">
         Crear Producto
@@ -9,13 +9,14 @@
 
     <div class="tabla-container2">
         <table>
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>NOMBRE</th>
                 <th>PRECIO</th>
                 <th>STOCK</th>
-                <th>ACCIONES</th>
             </tr>
+        </thead>
             <?php while ($pro = $productos->fetch_object()): ?>
                 <tr>
                     <td><?= $pro->id; ?></td>

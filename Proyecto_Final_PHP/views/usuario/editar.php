@@ -1,3 +1,4 @@
+<div id="gestion_usuarios">
 <h1>Editar Usuario</h1>
 
 <form action="<?= base_url ?>usuario/update" method="POST">
@@ -20,3 +21,4 @@
 
     <input type="submit" value="Guardar cambios" />
 </form>
+</div>
