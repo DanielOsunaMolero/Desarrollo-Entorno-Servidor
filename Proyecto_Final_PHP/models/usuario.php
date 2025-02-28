@@ -95,6 +95,8 @@ class Usuario
 
     public function save()
     {
+
+        $rol = $this->rol ? $this->rol : 'user'; //para que se puedan crear usuarios que sean admin tambie
         $sql = "INSERT INTO usuarios"
             . " VALUES(NULL, '{$this->getNombre()}', '{$this->getApellidos()}', "
             . "'{$this->getEmail()}', '{$this->getPassword()}', 'user'"
@@ -107,6 +109,36 @@ class Usuario
         }
         return $result;
     }
+
+    public function update()
+    {
+        $sql = "UPDATE usuarios SET "
+            . "nombre = '{$this->getNombre()}', "
+            . "apellidos = '{$this->getApellidos()}', "
+            . "email = '{$this->getEmail()}', "
+            . "rol = '{$this->getRol()}' "
+            . "WHERE id = {$this->getId()}";
+
+        $update = $this->db->query($sql);
+        return $update ? true : false;
+    }
+
+    // Método para obtener todos los usuarios para el admin
+    public function getAll()
+    {
+        $sql = "SELECT * FROM usuarios";
+        $usuarios = $this->db->query($sql);
+        return $usuarios;
+    }
+
+    // Obtener usuario por ID
+    public function getById($id)
+    {
+        $sql = "SELECT * FROM usuarios WHERE id = $id";
+        $usuario = $this->db->query($sql);
+        return $usuario->fetch_object();
+    }
+
 
     //Método para login de usuarios
     public function login()

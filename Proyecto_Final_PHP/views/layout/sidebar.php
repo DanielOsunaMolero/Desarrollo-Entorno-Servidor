@@ -20,6 +20,7 @@
           <li><a href="" class="botones-sidebar">Gestionar pedidos</a></li>
           <li><a href="<?= base_url ?>producto/gestion"" class="botones-sidebar">Gestionar productos</a></li>
           <li><a href="<?= base_url ?>categoria/index" class="botones-sidebar">Gestionar categorías</a></li>
+          <li><a href="<?= base_url ?>usuario/gestion" class="botones-sidebar">Gestionar usuarios</a></li>
         <?php endif; ?>
         <?php if (isset($_SESSION['identity'])): ?>
           <li><a href="" class="botones-sidebar">Mis pedidos</a></li>
