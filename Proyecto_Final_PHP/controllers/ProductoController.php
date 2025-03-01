@@ -117,43 +117,79 @@ class productoController
     }
 
     public function update()
-    {
-        Utils::isAdmin();
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-            $nombre = $_POST['nombre'];
-            $descripcion = $_POST['descripcion'];
-            $precio = $_POST['precio'];
-            $stock = $_POST['stock'];
-            $categoria = $_POST['categoria'];
+{
+    Utils::isAdmin();
 
-            $producto = new Producto();
-            $producto->setId($id);
-            $producto->setNombre($nombre);
-            $producto->setDescripcion($descripcion);
-            $producto->setPrecio($precio);
-            $producto->setStock($stock);
-            $producto->setCategoria_id($categoria);
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $descripcion = $_POST['descripcion'];
+        $precio = $_POST['precio'];
+        $stock = $_POST['stock'];
+        $categoria = $_POST['categoria'];
 
-            if (isset($_FILES['imagen'])) {
-                $file = $_FILES['imagen'];
-                $filename = $file['name'];
-                $mimetype = $file['type'];
+        $producto = new Producto();
+        $producto->setId($id);
+        $producto->setNombre($nombre);
+        $producto->setDescripcion($descripcion);
+        $producto->setPrecio($precio);
+        $producto->setStock($stock);
+        $producto->setCategoria_id($categoria);
 
-                if ($mimetype == 'image/jpg' || $mimetype == 'image/jpeg' || $mimetype == 'image/png' || $mimetype == 'image/gif') {
-                    if (!is_dir('uploads/images')) {
-                        mkdir('uploads/images', 0777, true);
-                    }
-                    move_uploaded_file($file['tmp_name'], 'uploads/images/' . $filename);
-                    $producto->setImagen($filename);
-                }
+        // Obtener el producto actual
+        $producto_actual = $producto->getById($id);
+        $imagen_guardada = $producto_actual->imagen; // Mantener la imagen anterior por defecto
+
+        // Manejo de la nueva imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
+            $file = $_FILES['imagen'];
+            $filename = time() . "_" . basename($file['name']); // Nombre único
+            $mimetype = mime_content_type($file['tmp_name']); // Obtener tipo MIME real
+
+            $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+
+            if (!in_array($mimetype, $allowedExtensions)) {
+                $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo se permiten JPG, PNG o GIF.";
+                header("Location:" . base_url . "producto/editar&id=" . $id);
+                exit();
             }
 
-            $update = $producto->update();
-            $_SESSION['edit'] = $update ? "complete" : "failed";
+            $ruta_destino = 'uploads/images/' . $filename;
+            
+            if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
+                // **Eliminar la imagen anterior si existía**
+                if (!empty($producto_actual->imagen)) {
+                    $ruta_imagen_anterior = 'uploads/images/' . $producto_actual->imagen;
+                    if (file_exists($ruta_imagen_anterior)) {
+                        unlink($ruta_imagen_anterior);
+                    }
+                }
+                // Guardar el nuevo nombre de la imagen
+                $imagen_guardada = $filename;
+            } else {
+                $_SESSION['imagen_error'] = "Error al subir la imagen. Inténtalo de nuevo.";
+                header("Location:" . base_url . "producto/editar&id=" . $id);
+                exit();
+            }
         }
-        header("Location:" . base_url . "producto/gestion");
+
+        // Asignar la nueva imagen si se subió correctamente
+        $producto->setImagen($imagen_guardada);
+
+        // **Actualizar el producto en la BD**
+        $update = $producto->update();
+        
+        if ($update) {
+            $_SESSION['edit'] = "complete";
+        } else {
+            $_SESSION['edit'] = "failed";
+        }
     }
+
+    header("Location:" . base_url . "producto/gestion");
+}
+
+
 
     public function eliminar()
     {

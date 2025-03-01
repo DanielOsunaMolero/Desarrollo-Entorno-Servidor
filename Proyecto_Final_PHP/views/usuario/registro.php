@@ -1,24 +1,25 @@
 <div id="registro">
+    <h1>Registro de Usuario</h1>
 
-    <?php if(isset($_SESSION['register']) && $_SESSION['register'] == 'complete' ): ?>
+    <?php if (isset($_SESSION['register']) && $_SESSION['register'] == 'complete'): ?>
         <strong class="alert_green">Registro completado correctamente</strong>    
-    <?php elseif(isset($_SESSION['register']) && $_SESSION['register'] == 'failed'): ?>
+    <?php elseif (isset($_SESSION['register']) && $_SESSION['register'] == 'failed'): ?>
         <strong class="alert_red">Registro fallido</strong> 
     <?php endif; ?>
-    <?php Utils::deleteSession('register');?> 
+    <?php Utils::deleteSession('register'); ?>
 
-    <?php if(isset($_SESSION['errors'])): ?>
+    <?php if (isset($_SESSION['errors'])): ?>
         <div class="alert_red">
             <ul>
-                <?php foreach($_SESSION['errors'] as $error): ?>
+                <?php foreach ($_SESSION['errors'] as $error): ?>
                     <li><?= $error ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
-        <?php Utils::deleteSession('errors'); ?> 
+        <?php Utils::deleteSession('errors'); ?>
     <?php endif; ?>
 
-    <form action="<?=base_url?>usuario/save" method="POST" class="form-regis">
+    <form action="<?= base_url ?>usuario/save" method="POST" class="form-regis">
         <label for="nombre">Nombre</label>
         <input type="text" name="nombre" required />
 
@@ -34,6 +35,7 @@
         <input type="submit" value="Registrarse"/>
     </form>
 </div>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {

@@ -32,32 +32,62 @@ class usuarioController
     //Método de guardado de usuarios
     public function save()
     {
-        if (isset($_POST)) {
-            $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
-            $apellidos = isset($_POST['apellidos']) ? $_POST['apellidos'] : false;
-            $email = isset($_POST['email']) ? $_POST['email'] : false;
-            $password = isset($_POST['password']) ? $_POST['password'] : false;
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            session_start();
 
-            if ($nombre && $apellidos && $email && $password) {
-                $usuario = new Usuario();
-                $usuario->setNombre($nombre);
-                $usuario->setApellidos($apellidos);
-                $usuario->setEmail($email);
-                $usuario->setPassword($password);
-                $save2 = $usuario->save();
+            // Recoger datos del formulario
+            $nombre = trim($_POST['nombre']);
+            $apellidos = trim($_POST['apellidos']);
+            $email = trim($_POST['email']);
+            $password = trim($_POST['password']);
 
-                if ($save2) {
-                    $_SESSION['register'] = "complete";
-                } else {
-                    $_SESSION['register'] = "failed";
-                }
+            $errors = [];
+
+            // Validaciones
+            if (!preg_match("/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/", $nombre) || strlen($nombre) < 2) {
+                $errors['nombre'] = "El nombre debe contener solo letras y al menos 2 caracteres.";
+            }
+
+            if (!preg_match("/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/", $apellidos) || strlen($apellidos) < 2) {
+                $errors['apellidos'] = "Los apellidos deben contener solo letras y al menos 2 caracteres.";
+            }
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = "Introduce un email válido.";
+            }
+
+            if (strlen($password) < 6 || !preg_match("/[A-Z]/", $password) || !preg_match("/[0-9]/", $password)) {
+                $errors['password'] = "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número.";
+            }
+
+            // Si hay errores, redirigir al formulario con los errores en sesión
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header("Location: " . base_url . "usuario/registro");
+                exit();
+            }
+
+            // **Llamar al modelo Usuario para guardar los datos**
+            $usuario = new Usuario();
+            $usuario->setNombre($nombre);
+            $usuario->setApellidos($apellidos);
+            $usuario->setEmail($email);
+            $usuario->setPassword(password_hash($password, PASSWORD_BCRYPT)); // Hash de la contraseña
+
+            $save = $usuario->save();
+
+            if ($save) {
+                $_SESSION['register'] = "complete";
             } else {
                 $_SESSION['register'] = "failed";
             }
         } else {
             $_SESSION['register'] = "failed";
         }
-        header("Location:" . base_url . "usuario/registro");
+
+        // Redirección después del proceso
+        header("Location: " . base_url . "usuario/registro");
+        exit();
     }
 
     public function saveAdmin() {
@@ -219,4 +249,76 @@ public function update()
         }
         header("Location:" . base_url);
     }
+
+
+    public function updateAdmin()
+{
+    Utils::isAdmin();
+
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $nombre = trim($_POST['nombre']);
+        $apellidos = trim($_POST['apellidos']);
+        $email = trim($_POST['email']);
+        $password = isset($_POST['password']) && !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null;
+        $rol = $_POST['rol'];
+
+        $usuario = new Usuario();
+        $usuario->setId($id);
+        $usuario->setNombre($nombre);
+        $usuario->setApellidos($apellidos);
+        $usuario->setEmail($email);
+        $usuario->setRol($rol);
+
+        // Obtener usuario actual para verificar la imagen
+        $usuario_actual = $usuario->getById($id);
+        $imagen_guardada = $usuario_actual->imagen; // Mantener imagen anterior si no se cambia
+
+        // Manejo de imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
+            $file = $_FILES['imagen'];
+            $filename = time() . "_" . basename($file['name']); // Nombre único
+            $mimetype = mime_content_type($file['tmp_name']); // Tipo real
+
+            $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+
+            if (!in_array($mimetype, $allowedExtensions)) {
+                $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo JPG, PNG o GIF.";
+                header("Location:" . base_url . "usuario/editar&id=" . $id);
+                exit();
+            }
+
+            $ruta_destino = 'uploads/usuarios/' . $filename;
+
+            if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
+                // **Eliminar la imagen anterior solo si se subió una nueva**
+                if (!empty($usuario_actual->imagen)) {
+                    $ruta_imagen_anterior = 'uploads/usuarios/' . $usuario_actual->imagen;
+                    if (file_exists($ruta_imagen_anterior)) {
+                        unlink($ruta_imagen_anterior);
+                    }
+                }
+
+                // Asignar la nueva imagen
+                $imagen_guardada = $filename;
+            } else {
+                $_SESSION['imagen_error'] = "Error al subir la imagen.";
+                header("Location:" . base_url . "usuario/editar&id=" . $id);
+                exit();
+            }
+        }
+
+        // Asignar la nueva imagen si se subió correctamente
+        $usuario->setImagen($imagen_guardada);
+
+        // Actualizar usuario en la base de datos
+        $update = $usuario->update();
+
+        $_SESSION['edit'] = $update ? "complete" : "failed";
+    }
+
+    header("Location:" . base_url . "usuario/gestion");
+}
+
+
 }

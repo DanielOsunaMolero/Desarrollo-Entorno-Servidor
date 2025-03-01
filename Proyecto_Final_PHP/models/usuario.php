@@ -95,19 +95,21 @@ class Usuario
 
     public function save()
     {
+        try {
+            $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, apellidos, email, password) VALUES (:nombre, :apellidos, :email, :password)");
 
-        $rol = $this->rol ? $this->rol : 'user'; //para que se puedan crear usuarios que sean admin tambie
-        $sql = "INSERT INTO usuarios"
-            . " VALUES(NULL, '{$this->getNombre()}', '{$this->getApellidos()}', "
-            . "'{$this->getEmail()}', '{$this->getPassword()}', 'user'"
-            . ", NULL);";
-        $save = $this->db->query($sql);
+            $stmt->execute([
+                ':nombre' => $this->nombre,
+                ':apellidos' => $this->apellidos,
+                ':email' => $this->email,
+                ':password' => $this->password // Contraseña ya hasheada
+            ]);
 
-        $result = false;
-        if ($save) {
-            $result = true;
+            return true;
+        } catch (PDOException $e) {
+            error_log("Error en el registro de usuario: " . $e->getMessage());
+            return false;
         }
-        return $result;
     }
 
     public function saveAdmin()
@@ -184,7 +186,7 @@ class Usuario
 
             $usuario = $login->fetch_object();
             //Verificar si la contraseña es correcta
-            $verify = password_verify($password, $usuario->password);
+            $verify = password_verify($password, $usuario->password); //Usamospassword verify 
 
             if ($verify) {
                 $result = $usuario;
