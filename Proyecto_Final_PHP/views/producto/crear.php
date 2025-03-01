@@ -7,7 +7,7 @@
     <?php $url_action = base_url.'producto/save';?>
 <?php endif; ?>
 
-<!-- Mostrar errores si existen -->
+
 <?php if(isset($_SESSION['product_errors'])): ?>
     <div class="alert_red">
         <ul>

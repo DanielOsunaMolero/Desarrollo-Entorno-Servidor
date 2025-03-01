@@ -32,18 +32,18 @@ class productoController
 
     public function crear()
     {
-        // Es un administrador?
+
         Utils::isAdmin();
-        // incluyendo vista para la creación de los productos
+        // incluyendo vista 
         require_once 'views/producto/crear.php';
     }
 
     public function save()
     {
-        // Es un administrador?
+        // comprobamos si es administrador
         Utils::isAdmin();
 
-        //¿Llegan datos por POST?
+
         if (isset($_POST)) {
             $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : false;
             $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : false;
@@ -53,17 +53,17 @@ class productoController
             //$imagen = isset($_POST['imagen']) ? $_POST['imagen'] : false;
 
             if ($nombre && $descripcion && $precio && $stock && $categoria) {
-                //Creamos objeto de la clase modelo
+                //Creamos objeto 
                 $producto = new Producto();
 
-                // Le damos valor a cada propiedad, mediante los datos del formulario
+                // Le damos valor a cada propiedad
                 $producto->setNombre($nombre);
                 $producto->setDescripcion($descripcion);
                 $producto->setPrecio($precio);
                 $producto->setStock($stock);
                 $producto->setCategoria_id($categoria);
 
-                // Guardar la imagen
+                // guardamos la imagen
 
                 if (isset($_FILES['imagen'])) {
                     $file = $_FILES['imagen'];
@@ -76,7 +76,7 @@ class productoController
 
                             mkdir('uploads/images', 0777, true);
                         }
-                        //Guardar el archivo en la carpeta o directorio
+
                         move_uploaded_file($file['tmp_name'], 'uploads/images/' . $filename);
                         $producto->setImagen($filename);
                     }
@@ -84,7 +84,7 @@ class productoController
 
                 $save = $producto->save();
 
-                //Comprobamos si se inserta bien
+                //comprobamos la insercion
                 if ($save) {
                     $_SESSION['producto'] = 'complete';
                 } else {
@@ -96,7 +96,7 @@ class productoController
         } else {
             $_SESSION['producto'] = 'failed';
         }
-        // Redirección al listado de productos en gestión
+
         header('Location:' . base_url . 'producto/gestion');
     }
 
@@ -117,77 +117,77 @@ class productoController
     }
 
     public function update()
-{
-    Utils::isAdmin();
+    {
+        Utils::isAdmin();
 
-    if (isset($_POST['id'])) {
-        $id = $_POST['id'];
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
-        $precio = $_POST['precio'];
-        $stock = $_POST['stock'];
-        $categoria = $_POST['categoria'];
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+            $nombre = $_POST['nombre'];
+            $descripcion = $_POST['descripcion'];
+            $precio = $_POST['precio'];
+            $stock = $_POST['stock'];
+            $categoria = $_POST['categoria'];
 
-        $producto = new Producto();
-        $producto->setId($id);
-        $producto->setNombre($nombre);
-        $producto->setDescripcion($descripcion);
-        $producto->setPrecio($precio);
-        $producto->setStock($stock);
-        $producto->setCategoria_id($categoria);
+            $producto = new Producto();
+            $producto->setId($id);
+            $producto->setNombre($nombre);
+            $producto->setDescripcion($descripcion);
+            $producto->setPrecio($precio);
+            $producto->setStock($stock);
+            $producto->setCategoria_id($categoria);
 
-        // Obtener el producto actual
-        $producto_actual = $producto->getById($id);
-        $imagen_guardada = $producto_actual->imagen; // Mantener la imagen anterior por defecto
 
-        // Manejo de la nueva imagen
-        if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
-            $file = $_FILES['imagen'];
-            $filename = time() . "_" . basename($file['name']); // Nombre único
-            $mimetype = mime_content_type($file['tmp_name']); // Obtener tipo MIME real
+            $producto_actual = $producto->getById($id);
+            $imagen_guardada = $producto_actual->imagen; 
 
-            $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
 
-            if (!in_array($mimetype, $allowedExtensions)) {
-                $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo se permiten JPG, PNG o GIF.";
-                header("Location:" . base_url . "producto/editar&id=" . $id);
-                exit();
-            }
+            if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
+                $file = $_FILES['imagen'];
+                $filename = time() . "_" . basename($file['name']); 
+                $mimetype = mime_content_type($file['tmp_name']);  //para saber el tipo de archivo
 
-            $ruta_destino = 'uploads/images/' . $filename;
-            
-            if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
-                // **Eliminar la imagen anterior si existía**
-                if (!empty($producto_actual->imagen)) {
-                    $ruta_imagen_anterior = 'uploads/images/' . $producto_actual->imagen;
-                    if (file_exists($ruta_imagen_anterior)) {
-                        unlink($ruta_imagen_anterior);
-                    }
+                $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg']; //estas son las extensiones permitidas para subir fotos
+
+                if (!in_array($mimetype, $allowedExtensions)) {
+                    $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo se permiten JPG, PNG o GIF.";
+                    header("Location:" . base_url . "producto/editar&id=" . $id);
+                    exit();
                 }
-                // Guardar el nuevo nombre de la imagen
-                $imagen_guardada = $filename;
+
+                $ruta_destino = 'uploads/images/' . $filename;
+
+                if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
+                    // **Eliminar la imagen anterior si existía**
+                    if (!empty($producto_actual->imagen)) {
+                        $ruta_imagen_anterior = 'uploads/images/' . $producto_actual->imagen;
+                        if (file_exists($ruta_imagen_anterior)) {
+                            unlink($ruta_imagen_anterior);
+                        }
+                    }
+                    // Guardar el nuevo nombre de la imagen
+                    $imagen_guardada = $filename;
+                } else {
+                    $_SESSION['imagen_error'] = "Error al subir la imagen. Inténtalo de nuevo.";
+                    header("Location:" . base_url . "producto/editar&id=" . $id);
+                    exit();
+                }
+            }
+
+            
+            $producto->setImagen($imagen_guardada);
+
+          //actualizamos bbdd
+            $update = $producto->update();
+
+            if ($update) {
+                $_SESSION['edit'] = "complete";
             } else {
-                $_SESSION['imagen_error'] = "Error al subir la imagen. Inténtalo de nuevo.";
-                header("Location:" . base_url . "producto/editar&id=" . $id);
-                exit();
+                $_SESSION['edit'] = "failed";
             }
         }
 
-        // Asignar la nueva imagen si se subió correctamente
-        $producto->setImagen($imagen_guardada);
-
-        // **Actualizar el producto en la BD**
-        $update = $producto->update();
-        
-        if ($update) {
-            $_SESSION['edit'] = "complete";
-        } else {
-            $_SESSION['edit'] = "failed";
-        }
+        header("Location:" . base_url . "producto/gestion");
     }
-
-    header("Location:" . base_url . "producto/gestion");
-}
 
 
 
@@ -218,12 +218,12 @@ class productoController
         if (isset($_GET['id'])) {
             $categoria_id = $_GET['id'];
 
-            // Obtener la categoría correctamente
+            //obtenemos la categoria
             $categoria = new Categoria();
             $categoria->setId($categoria_id);
-            $categoria_actual = $categoria->getById(); // Ahora sí funcionará
+            $categoria_actual = $categoria->getById(); 
 
-            // Obtener productos de la categoría seleccionada
+           //obtenemos los productos de esa categoria
             $producto = new Producto();
             $productos = $producto->getByCategoria($categoria_id);
 

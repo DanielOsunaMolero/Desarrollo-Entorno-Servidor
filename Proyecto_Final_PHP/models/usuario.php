@@ -1,6 +1,5 @@
 <?php
-//Definiendo la clase modelo para usuario, lo que tiene que ver con acciones de 
-// usuario en la base de datos se relaciona aquí en el modelo
+
 class Usuario
 {
     //Definiendo propiedades del usuario = Campos de la base de datos
@@ -102,7 +101,7 @@ class Usuario
                 ':nombre' => $this->nombre,
                 ':apellidos' => $this->apellidos,
                 ':email' => $this->email,
-                ':password' => $this->password // Contraseña ya hasheada
+                ':password' => $this->password
             ]);
 
             return true;
@@ -130,29 +129,29 @@ class Usuario
         require_once './views/usuario/crear.php';
     }
 
-    public function update() {
+    public function update()
+    {
         $sql = "UPDATE usuarios SET nombre='{$this->getNombre()}', 
                                     apellidos='{$this->getApellidos()}',
                                     email='{$this->getEmail()}'";
-        
-        // Solo permitir cambiar el rol si está definido (solo los admins lo definirán)
+
         if ($this->getRol()) {
             $sql .= ", rol='{$this->getRol()}'";
         }
-        
+
         $sql .= " WHERE id={$this->getId()}";
-    
+
         $update = $this->db->query($sql);
         return $update ? true : false;
     }
-    
+
 
     public function delete()
-{
-    $sql = "DELETE FROM usuarios WHERE id = {$this->getId()}";
-    $delete = $this->db->query($sql);
-    return $delete ? true : false;
-}
+    {
+        $sql = "DELETE FROM usuarios WHERE id = {$this->getId()}";
+        $delete = $this->db->query($sql);
+        return $delete ? true : false;
+    }
 
 
     // Método para obtener todos los usuarios para el admin
@@ -163,7 +162,7 @@ class Usuario
         return $usuarios;
     }
 
-    // Obtener usuario por ID
+
     public function getById($id)
     {
         $sql = "SELECT * FROM usuarios WHERE id = $id";

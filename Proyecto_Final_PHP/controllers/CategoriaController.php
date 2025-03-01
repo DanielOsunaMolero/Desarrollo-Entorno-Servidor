@@ -15,11 +15,11 @@ class categoriaController{
     public function crear() {
 
         Utils::isAdmin();
-        // Incluyendo la vista para la creación de las categorías
+       
         require_once 'views/categoria/crear.php';
     }
     
-    //guardar las nuevas categorías
+
     public function save() {
 
         Utils::isAdmin();

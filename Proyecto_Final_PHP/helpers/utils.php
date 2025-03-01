@@ -2,7 +2,7 @@
 
 class Utils{
 
-     //Método para eliminar una sesión especifica, pasada por el parametro $name
+     //Método para eliminar una sesión especifica
      public static function deleteSession($name){
         if(isset($_SESSION[$name])){
             $_SESSION[$name] = null;
@@ -23,7 +23,7 @@ class Utils{
     public static function showCategorias(){
         // incluyendo el modelo
         require_once 'models/categoria.php';
-        // Creando objeto de la clase modelo
+        
         $categoria = new Categoria();
         $categorias = $categoria->getCategorias();
         

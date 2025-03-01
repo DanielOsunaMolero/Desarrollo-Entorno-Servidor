@@ -1,7 +1,7 @@
 <div id="crear-categoria">
     <h1>Crear nueva Categoría</h1>
 
-    <!-- Mostrar errores si existen -->
+    
     <?php if(isset($_SESSION['categoria_errors'])): ?>
         <div class="alert_red">
             <ul>
@@ -21,7 +21,7 @@
     </form>
 </div>
 
-<!-- Validación del Formulario en el Cliente -->
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector(".form-categoria");

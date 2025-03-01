@@ -19,7 +19,7 @@
     </header>
 
     <?php $categorias = Utils::showCategorias(); ?>
-    <!-- Llama a utils para mostrar las categorias en el navegador -->
+
     <nav>
       <ul>
         <li><a href="<?= base_url ?>">Inicio</a></li>

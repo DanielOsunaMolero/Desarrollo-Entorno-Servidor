@@ -3,7 +3,7 @@
   <aside id="lateral">
     <div id="login" class="block_aside">
       <?php if (!isset($_SESSION['identity'])): ?>
-        <!-- Formulario de Login -->
+        <!-- Formulario -->
         <form action="<?= base_url ?>usuario/login" method="POST">
           <label for="email">Email</label>
           <input type="email" name="email" required>

@@ -30,7 +30,7 @@ class Categoria
 
     function setNombre($nombre)
     {
-        //Se usa un método para validar que cada propiedad se obtenga en un string
++
         $this->nombre = $this->db->real_escape_string($nombre);
     }
 
@@ -40,7 +40,7 @@ class Categoria
         return $categorias;
     }
 
-    //Método para guardar categorías
+
     public function save()
     {
         $sql = "INSERT INTO categorias VALUES(NULL, '{$this->getNombre()}');";
@@ -53,7 +53,6 @@ class Categoria
         return $result;
     }
 
-    //Metodo para obtener una categoria por su ID
     public function getById()
     {
         $sql = "SELECT * FROM categorias WHERE id = {$this->id}";
