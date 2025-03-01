@@ -5,7 +5,7 @@
             <img src="<?= base_url ?>uploads/images/<?= $prod->imagen ?>" alt="<?= $prod->nombre ?>">
             <h2><?= $prod->nombre ?></h2>
             <p><?= $prod->precio ?> €</p>
-            <a href="<?= base_url ?>producto/detalle&id=<?= $prod->id ?>" class="boton-producto">Ver Producto</a>
+            <a href="" class="boton-producto">Comprar</a>
         </div>
     <?php endwhile; ?>
 </div>
