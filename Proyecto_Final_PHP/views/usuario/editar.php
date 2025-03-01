@@ -28,11 +28,17 @@
         <label for="password">Nueva Contraseña (opcional)</label>
         <input type="password" name="password" />
 
-        <label for="rol">Rol</label>
-        <select name="rol" required>
-            <option value="user" <?= $usuario->rol == "user" ? 'selected' : '' ?>>Usuario</option>
-            <option value="admin" <?= $usuario->rol == "admin" ? 'selected' : '' ?>>Administrador</option>
-        </select>
+        <?php if (isset($_SESSION['admin']) && $_SESSION['admin']): ?>
+            <label for="rol">Rol</label>
+            <select name="rol" required>
+                <option value="user" <?= $usuario->rol == "user" ? 'selected' : '' ?>>Usuario</option>
+                <option value="admin" <?= $usuario->rol == "admin" ? 'selected' : '' ?>>Administrador</option>
+            </select>
+        <?php else: ?>
+
+            <input type="hidden" name="rol" value="<?= $usuario->rol ?>" />
+        <?php endif; ?>
+
 
         <input type="submit" value="Actualizar" />
     </form>

@@ -32,64 +32,70 @@ class usuarioController
 
     //metodo para guardar usuarios
     public function save()
-    {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Comprobar si la sesión está activa antes de iniciarla
+        if (session_status() == PHP_SESSION_NONE) {
             session_start();
-
-
-            $nombre = trim($_POST['nombre']);
-            $apellidos = trim($_POST['apellidos']);
-            $email = trim($_POST['email']);
-            $password = trim($_POST['password']);
-
-            $errors = [];
-
-            // Validaciones
-            if (!preg_match("/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/", $nombre) || strlen($nombre) < 2) {
-                $errors['nombre'] = "El nombre debe contener solo letras y al menos 2 caracteres.";
-            }
-
-            if (!preg_match("/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/", $apellidos) || strlen($apellidos) < 2) {
-                $errors['apellidos'] = "Los apellidos deben contener solo letras y al menos 2 caracteres.";
-            }
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = "Introduce un email válido.";
-            }
-
-            if (strlen($password) < 6 || !preg_match("/[A-Z]/", $password) || !preg_match("/[0-9]/", $password)) {
-                $errors['password'] = "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número.";
-            }
-
-            // si hay errores redirige al formulario
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header("Location: " . base_url . "usuario/registro");
-                exit();
-            }
-
-
-            $usuario = new Usuario();
-            $usuario->setNombre($nombre);
-            $usuario->setApellidos($apellidos);
-            $usuario->setEmail($email);
-            $usuario->setPassword(password_hash($password, PASSWORD_BCRYPT));
-
-            $save = $usuario->save();
-
-            if ($save) {
-                $_SESSION['register'] = "complete";
-            } else {
-                $_SESSION['register'] = "failed";
-            }
-        } else {
-            $_SESSION['register'] = "failed";
         }
 
+        $nombre = trim($_POST['nombre']);
+        $apellidos = trim($_POST['apellidos']);
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
 
-        header("Location: " . base_url . "usuario/registro");
-        exit();
+        $errors = [];
+
+        // Validaciones
+        if (!preg_match("/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/", $nombre) || strlen($nombre) < 2) {
+            $errors['nombre'] = "El nombre debe contener solo letras y al menos 2 caracteres.";
+        }
+
+        if (!preg_match("/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/", $apellidos) || strlen($apellidos) < 2) {
+            $errors['apellidos'] = "Los apellidos deben contener solo letras y al menos 2 caracteres.";
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = "Introduce un email válido.";
+        }
+
+        if (strlen($password) < 6 || !preg_match("/[A-Z]/", $password) || !preg_match("/[0-9]/", $password)) {
+            $errors['password'] = "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número.";
+        }
+
+        // Si hay errores, redirige al formulario
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            header("Location: " . base_url . "usuario/registro");
+            exit();
+        }
+
+        $usuario = new Usuario();
+        $usuario->setNombre($nombre);
+        $usuario->setApellidos($apellidos);
+        $usuario->setEmail($email);
+        $usuario->setPassword(password_hash($password, PASSWORD_BCRYPT));
+
+        $save = $usuario->save();
+
+        if ($save) {
+            $_SESSION['register'] = "complete";
+            $_SESSION['success_message'] = "Registro completado con éxito. ¡Bienvenido!";
+        } else {
+            $_SESSION['register'] = "failed";
+            $_SESSION['error_message'] = "Hubo un problema al registrarse. Inténtalo de nuevo.";
+        }
+        
+    } else {
+        $_SESSION['register'] = "failed";
     }
+
+    
+
+    header("Location: " . base_url . "usuario/registro");
+    exit();
+}
+
 
     //solo para admins
     public function saveAdmin()
@@ -148,7 +154,9 @@ class usuarioController
 
 
             if ($_SESSION['identity']->id == $usu->id || isset($_SESSION['admin'])) {
+                $usuario = $usu; // Se pasa el usuario correcto a la vista
                 require_once './views/usuario/editar.php';
+                
             } else {
                 header("Location:" . base_url);
             }
@@ -259,71 +267,41 @@ class usuarioController
 
 
     public function updateAdmin()
-    {
-        Utils::isAdmin();
+{
+    Utils::isAdmin(); // Solo los admins pueden acceder a este método
 
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-            $nombre = trim($_POST['nombre']);
-            $apellidos = trim($_POST['apellidos']);
-            $email = trim($_POST['email']);
-            $password = isset($_POST['password']) && !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null;
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $nombre = trim($_POST['nombre']);
+        $apellidos = trim($_POST['apellidos']);
+        $email = trim($_POST['email']);
+        $password = isset($_POST['password']) && !empty($_POST['password']) 
+            ? password_hash($_POST['password'], PASSWORD_BCRYPT) 
+            : null;
+
+        $usuario = new Usuario();
+        $usuario->setId($id);
+        $usuario->setNombre($nombre);
+        $usuario->setApellidos($apellidos);
+        $usuario->setEmail($email);
+
+        // Solo los administradores pueden cambiar el rol
+        if (isset($_SESSION['admin']) && $_SESSION['admin']) {
             $rol = $_POST['rol'];
-
-            $usuario = new Usuario();
-            $usuario->setId($id);
-            $usuario->setNombre($nombre);
-            $usuario->setApellidos($apellidos);
-            $usuario->setEmail($email);
             $usuario->setRol($rol);
-
-
-            $usuario_actual = $usuario->getById($id);
-            $imagen_guardada = $usuario_actual->imagen;
-
-            // Manejo de imagen
-            if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
-                $file = $_FILES['imagen'];
-                $filename = time() . "_" . basename($file['name']);
-                $mimetype = mime_content_type($file['tmp_name']);
-
-                $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
-
-                if (!in_array($mimetype, $allowedExtensions)) {
-                    $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo JPG, PNG o GIF.";
-                    header("Location:" . base_url . "usuario/editar&id=" . $id);
-                    exit();
-                }
-
-                $ruta_destino = 'uploads/usuarios/' . $filename;
-
-                if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
-
-                    if (!empty($usuario_actual->imagen)) {
-                        $ruta_imagen_anterior = 'uploads/usuarios/' . $usuario_actual->imagen;
-                        if (file_exists($ruta_imagen_anterior)) {
-                            unlink($ruta_imagen_anterior);
-                        }
-                    }
-
-
-                    $imagen_guardada = $filename;
-                } else {
-                    $_SESSION['imagen_error'] = "Error al subir la imagen.";
-                    header("Location:" . base_url . "usuario/editar&id=" . $id);
-                    exit();
-                }
-            }
-
-
-            $usuario->setImagen($imagen_guardada);
-
-
-            $update = $usuario->update();
-
-            $_SESSION['edit'] = $update ? "complete" : "failed";
         }
 
-        header("Location:" . base_url . "usuario/gestion");
+        if ($password) {
+            $usuario->setPassword($password);
+        }
+
+        $update = $usuario->update();
+        $_SESSION['edit'] = $update ? "complete" : "failed";
     }
+
+    header("Location:" . base_url . "usuario/gestion");
+}
+
+
+
 }

@@ -93,23 +93,42 @@ class Usuario
 
 
     public function save()
-    {
-        try {
-            $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, apellidos, email, password) VALUES (:nombre, :apellidos, :email, :password)");
-
-            $stmt->execute([
-                ':nombre' => $this->nombre,
-                ':apellidos' => $this->apellidos,
-                ':email' => $this->email,
-                ':password' => $this->password
-            ]);
-
-            return true;
-        } catch (PDOException $e) {
-            error_log("Error en el registro de usuario: " . $e->getMessage());
-            return false;
+{
+    try {
+        // Comprobar si la conexión está activa
+        if (!$this->db) {
+            throw new Exception("Error: No hay conexión con la base de datos.");
         }
+
+        // Preparar la consulta SQL con placeholders
+        $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, apellidos, email, password) 
+                                    VALUES (?, ?, ?, ?)");
+
+        // Verificar si la preparación de la consulta falló
+        if (!$stmt) {
+            throw new Exception("Error al preparar la consulta: " . $this->db->error);
+        }
+
+        // Bind de parámetros
+        $hashed_password = password_hash($this->password, PASSWORD_BCRYPT);
+        $stmt->bind_param("ssss", $this->nombre, $this->apellidos, $this->email, $hashed_password);
+
+        // Ejecutar la consulta
+        $success = $stmt->execute();
+
+        // Si la ejecución falla, mostrar el error de MySQL
+        if (!$success) {
+            throw new Exception("Error en la ejecución de la consulta: " . $stmt->error);
+        }
+
+        return true;
+    } catch (Exception $e) {
+        error_log("Error en el registro de usuario: " . $e->getMessage());
+        echo "Ocurrió un error: " . $e->getMessage(); // Muestra el error en pantalla para depuración
+        return false;
     }
+}
+
 
     public function saveAdmin()
     {
@@ -131,19 +150,27 @@ class Usuario
 
     public function update()
     {
-        $sql = "UPDATE usuarios SET nombre='{$this->getNombre()}', 
-                                    apellidos='{$this->getApellidos()}',
-                                    email='{$this->getEmail()}'";
+        $sql = "UPDATE usuarios SET 
+                nombre = '{$this->getNombre()}', 
+                apellidos = '{$this->getApellidos()}',
+                email = '{$this->getEmail()}'";
 
-        if ($this->getRol()) {
-            $sql .= ", rol='{$this->getRol()}'";
+        if (!empty($this->password)) {
+            $sql .= ", password = '{$this->password}'"; // La contraseña ya viene hasheada
         }
 
-        $sql .= " WHERE id={$this->getId()}";
+        // Solo actualizar el rol si el usuario es admin
+        if (isset($_SESSION['admin']) && $_SESSION['admin']) {
+            $sql .= ", rol = '{$this->getRol()}'";
+        }
 
-        $update = $this->db->query($sql);
-        return $update ? true : false;
+        $sql .= " WHERE id = '{$this->getId()}'";
+
+        return $this->db->query($sql);
     }
+
+
+
 
 
     public function delete()

@@ -1,25 +1,23 @@
 <div id="registro">
     <h1>Registro de Usuario</h1>
 
-    <?php if (isset($_SESSION['register']) && $_SESSION['register'] == 'complete'): ?>
-        <strong class="alert_green">Registro completado correctamente</strong>    
-    <?php elseif (isset($_SESSION['register']) && $_SESSION['register'] == 'failed'): ?>
-        <strong class="alert_red">Registro fallido</strong> 
-    <?php endif; ?>
-    <?php Utils::deleteSession('register'); ?>
 
-    <?php if (isset($_SESSION['errors'])): ?>
-        <div class="alert_red">
-            <ul>
-                <?php foreach ($_SESSION['errors'] as $error): ?>
-                    <li><?= $error ?></li>
-                <?php endforeach; ?>
-            </ul>
+    <?php if(isset($_SESSION['success_message'])): ?>
+        <div class="alert_green" style="color: white;">
+            <?= $_SESSION['success_message']; ?>
         </div>
-        <?php Utils::deleteSession('errors'); ?>
+        <?php unset($_SESSION['success_message']); ?>
     <?php endif; ?>
 
-    <form action="<?= base_url ?>usuario/save" method="POST" class="form-regis">
+
+    <?php if(isset($_SESSION['error_message'])): ?>
+        <div class="alert_red">
+            <?= $_SESSION['error_message']; ?>
+        </div>
+        <?php unset($_SESSION['error_message']); ?>
+    <?php endif; ?>
+
+    <form action="<?= base_url ?>usuario/save" method="POST">
         <label for="nombre">Nombre</label>
         <input type="text" name="nombre" required />
 
@@ -35,6 +33,7 @@
         <input type="submit" value="Registrarse"/>
     </form>
 </div>
+
 
 
 <script>

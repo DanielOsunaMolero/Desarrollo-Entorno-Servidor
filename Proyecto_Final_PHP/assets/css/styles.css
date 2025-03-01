@@ -348,7 +348,7 @@ button,
   padding: 12px 20px;
   border: none;
   border-radius: 10px;
-  width: 50%;
+  width: 60%;
   margin: 10px auto;
   font-size: 18px;
   cursor: pointer;
@@ -512,6 +512,8 @@ footer {
 
 
 /* GENERALES */
+
+
 .alerta-ok {
   color: #008000;
 }
