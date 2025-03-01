@@ -120,4 +120,43 @@ class Producto{
         }
         return $result;
     }
+
+    public function getById($id)
+    {
+        $sql = "SELECT * FROM productos WHERE id = {$id}";
+        $producto = $this->db->query($sql);
+
+        return $producto->fetch_object(); 
+    }
+
+    public function update()
+    {
+        $sql = "UPDATE productos SET 
+                categoria_id = '{$this->categoria_id}', 
+                nombre = '{$this->nombre}', 
+                descripcion = '{$this->descripcion}', 
+                precio = '{$this->precio}', 
+                stock = '{$this->stock}'";
+        
+        
+        if (!empty($this->imagen)) {
+            $sql .= ", imagen = '{$this->imagen}'";
+        }
+
+        $sql .= " WHERE id = '{$this->id}'";
+
+        return $this->db->query($sql);
+    }
+
+    public function delete()
+    {
+        $sql = "DELETE FROM productos WHERE id = '{$this->id}'";
+        return $this->db->query($sql);
+    }
+    public function getByCategoria($categoria_id)
+{
+    $sql = "SELECT * FROM productos WHERE categoria_id = {$categoria_id}";
+    return $this->db->query($sql);
+}
+
 }

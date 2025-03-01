@@ -6,30 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>CRV SHOP</title>
-  <link rel="stylesheet" href="<?=base_url?>./assets/css/styles.css">
+  <link rel="stylesheet" href="<?= base_url ?>./assets/css/styles.css">
 </head>
 
 <body>
   <div id="container">
     <header>
       <div id="logo">
-        <img src="<?=base_url?>./assets/img/Balón_CRV_768x768.png">
-        <a href="<?=base_url?>" class="palabra-header">CRV SHOP</a>
+        <img src="<?= base_url ?>./assets/img/Balón_CRV_768x768.png">
+        <a href="<?= base_url ?>" class="palabra-header">CRV SHOP</a>
       </div>
     </header>
 
-    <?php $categorias = Utils::showCategorias(); ?> 
+    <?php $categorias = Utils::showCategorias(); ?>
     <!-- Llama a utils para mostrar las categorias en el navegador -->
-            <nav id="menu">
-                <ul>
-                    <li>
-                        <a href="<?=base_url?>" class="palabras-categorias">Inicio</a>
-                    </li>
-                    <?php while($cat = $categorias->fetch_object()):?>
-                    <li>
-                        <a href="<?=base_url?>categoria/ver&id=<?=$cat->id?>" class="palabras-categorias"><?=$cat->nombre?> </a>
-                    </li>
-                    <?php endwhile; ?>
-                </ul>
+    <nav>
+      <ul>
+        <li><a href="<?= base_url ?>">Inicio</a></li>
 
-            </nav>
+        <?php
+        require_once 'models/categoria.php';
+        $categoria = new Categoria();
+        $categorias = $categoria->getCategorias();
+        while ($cat = $categorias->fetch_object()) :
+        ?>
+          <li>
+            <a href="<?= base_url ?>producto/categoria&id=<?= $cat->id ?>">
+              <?= $cat->nombre ?>
+            </a>
+          </li>
+        <?php endwhile; ?>
+      </ul>
+    </nav>

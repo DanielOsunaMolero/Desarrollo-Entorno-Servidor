@@ -128,18 +128,22 @@ class Usuario
         require_once './views/usuario/crear.php';
     }
 
-    public function update()
-    {
-        $sql = "UPDATE usuarios SET "
-            . "nombre = '{$this->getNombre()}', "
-            . "apellidos = '{$this->getApellidos()}', "
-            . "email = '{$this->getEmail()}', "
-            . "rol = '{$this->getRol()}' "
-            . "WHERE id = {$this->getId()}";
-
+    public function update() {
+        $sql = "UPDATE usuarios SET nombre='{$this->getNombre()}', 
+                                    apellidos='{$this->getApellidos()}',
+                                    email='{$this->getEmail()}'";
+        
+        // Solo permitir cambiar el rol si está definido (solo los admins lo definirán)
+        if ($this->getRol()) {
+            $sql .= ", rol='{$this->getRol()}'";
+        }
+        
+        $sql .= " WHERE id={$this->getId()}";
+    
         $update = $this->db->query($sql);
         return $update ? true : false;
     }
+    
 
     public function delete()
 {

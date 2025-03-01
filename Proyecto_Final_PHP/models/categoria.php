@@ -46,5 +46,14 @@ class Categoria{
        return $result;
    }
 
+   public function getById()
+{
+    $sql = "SELECT * FROM categorias WHERE id = {$this->id}";
+    $categoria = $this->db->query($sql);
+
+    return $categoria->fetch_object();
+}
+
+
 }
 ?>

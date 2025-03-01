@@ -103,41 +103,60 @@ class usuarioController
     
 
     public function editar()
-    {
-        Utils::isAdmin();
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $usuario = new Usuario();
-            $usuario->setId($id);
-            $usu = $usuario->getById($id);
+{
+    if (isset($_SESSION['identity'])) {
+        $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['identity']->id; // Si no se pasa ID, usa el del usuario autenticado
+        $usuario = new Usuario();
+        $usuario->setId($id);
+        $usu = $usuario->getById($id);
+
+        // Permitir la edición solo si es admin o si edita su propio perfil
+        if ($_SESSION['identity']->id == $usu->id || isset($_SESSION['admin'])) {
             require_once './views/usuario/editar.php';
         } else {
-            header("Location:" . base_url . "usuario/gestion");
+            header("Location:" . base_url);
         }
+    } else {
+        header("Location:" . base_url);
     }
+}
 
-    public function update()
-    {
-        Utils::isAdmin();
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-            $nombre = $_POST['nombre'];
-            $apellidos = $_POST['apellidos'];
-            $email = $_POST['email'];
-            $rol = $_POST['rol'];
 
-            $usuario = new Usuario();
-            $usuario->setId($id);
-            $usuario->setNombre($nombre);
-            $usuario->setApellidos($apellidos);
-            $usuario->setEmail($email);
+public function update()
+{
+    if (isset($_SESSION['identity']) && isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $email = $_POST['email'];
+        $rol = isset($_POST['rol']) ? $_POST['rol'] : 'user'; // Solo los admins verán esta opción
+
+        $usuario = new Usuario();
+        $usuario->setId($id);
+        $usuario->setNombre($nombre);
+        $usuario->setApellidos($apellidos);
+        $usuario->setEmail($email);
+
+        // Solo los admins pueden modificar el rol
+        if (isset($_SESSION['admin'])) {
             $usuario->setRol($rol);
-
-            $update = $usuario->update();
-            $_SESSION['edit'] = $update ? "complete" : "failed";
         }
-        header("Location:" . base_url . "usuario/gestion");
+
+        $update = $usuario->update();
+
+        // Si el usuario está editando su propio perfil, actualizar la sesión
+        if ($update && $_SESSION['identity']->id == $id) {
+            $_SESSION['identity']->nombre = $nombre;
+            $_SESSION['identity']->apellidos = $apellidos;
+            $_SESSION['identity']->email = $email;
+            $_SESSION['edit'] = "complete";
+        } else {
+            $_SESSION['edit'] = "failed";
+        }
     }
+    header("Location:" . base_url . "usuario/gestion");
+}
+
 
     public function eliminar() {
         Utils::isAdmin(); // Solo administradores pueden eliminar usuarios
