@@ -11,8 +11,6 @@ require_once 'helpers/utils.php';
 require_once 'views/layout/header.php'; // layout header vista
 require_once 'views/layout/sidebar.php'; // layout sidebar vista
 
-//$db= Database::connect();
-//Funciones para cargar controlador de errores
 function show_error(){
     $error = new errorController();
     $error->index();
