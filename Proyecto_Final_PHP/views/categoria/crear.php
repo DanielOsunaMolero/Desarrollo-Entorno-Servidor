@@ -30,16 +30,16 @@ document.addEventListener("DOMContentLoaded", function() {
         let valid = true;
         let errorMessage = "";
 
-        // Obtener valores de los campos
+
         const nombre = form.nombre.value.trim();
 
-        // Validar nombre (mínimo 3 caracteres y solo letras y espacios)
+        // validamos nombre
         if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(nombre)) {
             valid = false;
             errorMessage += "El nombre debe tener al menos 3 caracteres y solo contener letras y espacios.\n";
         }
 
-        // Si hay errores, prevenir el envío del formulario y mostrar alerta
+   
         if (!valid) {
             alert(errorMessage);
             event.preventDefault();

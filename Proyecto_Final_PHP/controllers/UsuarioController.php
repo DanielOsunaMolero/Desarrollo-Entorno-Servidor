@@ -34,10 +34,7 @@ class usuarioController
     public function save()
 {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Comprobar si la sesión está activa antes de iniciarla
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        session_start();
 
         $nombre = trim($_POST['nombre']);
         $apellidos = trim($_POST['apellidos']);
@@ -63,7 +60,7 @@ class usuarioController
             $errors['password'] = "La contraseña debe tener al menos 6 caracteres, una mayúscula y un número.";
         }
 
-        // Si hay errores, redirige al formulario
+        // Si hay errores, redirige al formulario con los errores
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             header("Location: " . base_url . "usuario/registro");
@@ -74,27 +71,28 @@ class usuarioController
         $usuario->setNombre($nombre);
         $usuario->setApellidos($apellidos);
         $usuario->setEmail($email);
-        $usuario->setPassword(password_hash($password, PASSWORD_BCRYPT));
+        $usuario->setPassword($password);
+
+        // **Asignar el rol 'user' por defecto**
+        $usuario->setRol("user");
 
         $save = $usuario->save();
 
         if ($save) {
-            $_SESSION['register'] = "complete";
-            $_SESSION['success_message'] = "Registro completado con éxito. ¡Bienvenido!";
+            $_SESSION['success_message'] = "Usuario registrado correctamente.";
         } else {
-            $_SESSION['register'] = "failed";
-            $_SESSION['error_message'] = "Hubo un problema al registrarse. Inténtalo de nuevo.";
+            $_SESSION['error_message'] = "Hubo un error al registrar el usuario.";
         }
-        
     } else {
-        $_SESSION['register'] = "failed";
+        $_SESSION['error_message'] = "Hubo un error en la solicitud.";
     }
-
-    
 
     header("Location: " . base_url . "usuario/registro");
     exit();
 }
+
+
+
 
 
     //solo para admins

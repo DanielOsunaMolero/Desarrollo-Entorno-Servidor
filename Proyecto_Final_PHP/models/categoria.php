@@ -2,7 +2,6 @@
 
 class Categoria
 {
-
     private $id;
     private $nombre;
     private $db;
@@ -12,7 +11,8 @@ class Categoria
     {
         $this->db = Database::connect();
     }
-    //Métodos Setter an Getter
+
+    // Métodos Getter y Setter
     function getId()
     {
         return $this->id;
@@ -30,34 +30,33 @@ class Categoria
 
     function setNombre($nombre)
     {
-+
         $this->nombre = $this->db->real_escape_string($nombre);
     }
 
     public function getCategorias()
     {
-        $categorias = $this->db->query("SELECT * FROM categorias ORDER BY id DESC;");
-        return $categorias;
+        $sql = "SELECT * FROM categorias ORDER BY nombre ASC";
+        return $this->db->query($sql);
     }
-
 
     public function save()
     {
-        $sql = "INSERT INTO categorias VALUES(NULL, '{$this->getNombre()}');";
+        $sql = "INSERT INTO categorias (nombre) VALUES ('{$this->getNombre()}')";
         $save = $this->db->query($sql);
 
-        $result = false;
-        if ($save) {
-            $result = true;
+        if (!$save) {
+            error_log("Error en la consulta SQL: " . $this->db->error);
+            return false;
         }
-        return $result;
+
+        return true;
     }
 
-    public function getById()
+    public function getById($id)
     {
-        $sql = "SELECT * FROM categorias WHERE id = {$this->id}";
-        $categoria = $this->db->query($sql);
-
-        return $categoria->fetch_object();
+        $sql = "SELECT * FROM categorias WHERE id = {$id}";
+        $result = $this->db->query($sql);
+        return $result->fetch_object(); 
     }
 }
+?>

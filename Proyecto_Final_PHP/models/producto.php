@@ -152,22 +152,39 @@ class Producto
 
     public function update()
     {
+        error_log("Intentando actualizar el producto ID: " . $this->id);
+        error_log("Nombre: " . $this->nombre);
+        error_log("Descripción: " . $this->descripcion);
+        error_log("Precio: " . $this->precio);
+        error_log("Stock: " . $this->stock);
+        error_log("Categoría: " . $this->categoria_id);
+        error_log("Imagen: " . $this->imagen);
+    
         $sql = "UPDATE productos SET 
                 categoria_id = '{$this->categoria_id}', 
                 nombre = '{$this->nombre}', 
                 descripcion = '{$this->descripcion}', 
                 precio = '{$this->precio}', 
                 stock = '{$this->stock}'";
-
-
+    
         if (!empty($this->imagen)) {
             $sql .= ", imagen = '{$this->imagen}'";
         }
-
+    
         $sql .= " WHERE id = '{$this->id}'";
-
-        return $this->db->query($sql);
+    
+        error_log("Consulta SQL generada: " . $sql);
+    
+        $result = $this->db->query($sql);
+    
+        if (!$result) {
+            error_log("Error en la consulta: " . $this->db->error);
+        }
+    
+        return $result;
     }
+    
+
 
     public function delete()
     {

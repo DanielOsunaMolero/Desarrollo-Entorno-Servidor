@@ -117,77 +117,70 @@ class productoController
     }
 
     public function update()
-    {
-        Utils::isAdmin();
+{
+    Utils::isAdmin();
 
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-            $nombre = $_POST['nombre'];
-            $descripcion = $_POST['descripcion'];
-            $precio = $_POST['precio'];
-            $stock = $_POST['stock'];
-            $categoria = $_POST['categoria'];
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $descripcion = $_POST['descripcion'];
+        $precio = $_POST['precio'];
+        $stock = $_POST['stock'];
+        $categoria = $_POST['categoria'];
 
-            $producto = new Producto();
-            $producto->setId($id);
-            $producto->setNombre($nombre);
-            $producto->setDescripcion($descripcion);
-            $producto->setPrecio($precio);
-            $producto->setStock($stock);
-            $producto->setCategoria_id($categoria);
+        error_log("Datos recibidos en el controlador:");
+        error_log("ID: " . $id);
+        error_log("Nombre: " . $nombre);
+        error_log("Descripción: " . $descripcion);
+        error_log("Precio: " . $precio);
+        error_log("Stock: " . $stock);
+        error_log("Categoría: " . $categoria);
 
+        $producto = new Producto();
+        $producto->setId($id);
+        $producto->setNombre($nombre);
+        $producto->setDescripcion($descripcion);
+        $producto->setPrecio($precio);
+        $producto->setStock($stock);
+        $producto->setCategoria_id($categoria);
 
-            $producto_actual = $producto->getById($id);
-            $imagen_guardada = $producto_actual->imagen; 
+        // Manejo de imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
+            $file = $_FILES['imagen'];
+            $filename = time() . "_" . basename($file['name']);
+            $mimetype = mime_content_type($file['tmp_name']);
 
+            $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
 
-            if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0) {
-                $file = $_FILES['imagen'];
-                $filename = time() . "_" . basename($file['name']); 
-                $mimetype = mime_content_type($file['tmp_name']);  //para saber el tipo de archivo
-
-                $allowedExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg']; //estas son las extensiones permitidas para subir fotos
-
-                if (!in_array($mimetype, $allowedExtensions)) {
-                    $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo se permiten JPG, PNG o GIF.";
-                    header("Location:" . base_url . "producto/editar&id=" . $id);
-                    exit();
-                }
-
-                $ruta_destino = 'uploads/images/' . $filename;
-
-                if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
-                    // **Eliminar la imagen anterior si existía**
-                    if (!empty($producto_actual->imagen)) {
-                        $ruta_imagen_anterior = 'uploads/images/' . $producto_actual->imagen;
-                        if (file_exists($ruta_imagen_anterior)) {
-                            unlink($ruta_imagen_anterior);
-                        }
-                    }
-                    // Guardar el nuevo nombre de la imagen
-                    $imagen_guardada = $filename;
-                } else {
-                    $_SESSION['imagen_error'] = "Error al subir la imagen. Inténtalo de nuevo.";
-                    header("Location:" . base_url . "producto/editar&id=" . $id);
-                    exit();
-                }
+            if (!in_array($mimetype, $allowedExtensions)) {
+                $_SESSION['imagen_error'] = "Formato de imagen no válido. Solo se permiten JPG, PNG o GIF.";
+                header("Location:" . base_url . "producto/editar&id=" . $id);
+                exit();
             }
 
-            
-            $producto->setImagen($imagen_guardada);
-
-          //actualizamos bbdd
-            $update = $producto->update();
-
-            if ($update) {
-                $_SESSION['edit'] = "complete";
+            $ruta_destino = 'uploads/images/' . $filename;
+            if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
+                $producto->setImagen($filename);
             } else {
-                $_SESSION['edit'] = "failed";
+                $_SESSION['imagen_error'] = "Error al subir la imagen.";
+                header("Location:" . base_url . "producto/editar&id=" . $id);
+                exit();
             }
         }
 
-        header("Location:" . base_url . "producto/gestion");
+        // Intentar actualizar en la base de datos
+        $update = $producto->update();
+
+        if ($update) {
+            $_SESSION['edit'] = "complete";
+        } else {
+            $_SESSION['edit'] = "failed";
+        }
     }
+
+    header("Location:" . base_url . "producto/gestion");
+}
+
 
 
 
@@ -214,22 +207,30 @@ class productoController
     //PARA QUE CUANDO PULSES UNA CATEGORIA DEL NAVEGADOR TE MUESTRE TODOS LOS PRODUCTOS DE ELLA
 
     public function categoria()
-    {
-        if (isset($_GET['id'])) {
-            $categoria_id = $_GET['id'];
+{
+    if (isset($_GET['id'])) {
+        $categoria_id = $_GET['id'];
 
-            //obtenemos la categoria
-            $categoria = new Categoria();
-            $categoria->setId($categoria_id);
-            $categoria_actual = $categoria->getById(); 
+        // Obtenemos la categoría
+        $categoria = new Categoria();
+        $categoria->setId($categoria_id);
+        $categoria_actual = $categoria->getById($categoria_id); // Añade $categoria_id
 
-           //obtenemos los productos de esa categoria
-            $producto = new Producto();
-            $productos = $producto->getByCategoria($categoria_id);
-
-            require_once 'views/producto/categoria.php';
-        } else {
+        // Verifica que la categoría exista
+        if (!$categoria_actual) {
+            $_SESSION['error'] = "La categoría seleccionada no existe.";
             header("Location:" . base_url);
+            exit();
         }
+
+        // Obtenemos los productos de esa categoría
+        $producto = new Producto();
+        $productos = $producto->getByCategoria($categoria_id);
+
+        require_once 'views/producto/categoria.php';
+    } else {
+        header("Location:" . base_url);
     }
+}
+
 }

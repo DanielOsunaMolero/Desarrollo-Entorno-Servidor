@@ -21,16 +21,24 @@ class categoriaController{
     
 
     public function save() {
-
         Utils::isAdmin();
-        if(isset($_POST) && isset($_POST['nombre'])){
+    
+        if(isset($_POST) && isset($_POST['nombre'])) {
             $categoria = new Categoria();
             $categoria->setNombre($_POST['nombre']);
-            $categoria->save();
+            
+            if ($categoria->save()) {
+                $_SESSION['categoria_success'] = "Categoría creada correctamente.";
+            } else {
+                $_SESSION['categoria_errors'][] = "Error al guardar la categoría.";
+            }
+        } else {
+            $_SESSION['categoria_errors'][] = "El nombre de la categoría es obligatorio.";
         }
-
+    
         header("Location:".base_url."categoria/index");
     }
+    
     
 }
 

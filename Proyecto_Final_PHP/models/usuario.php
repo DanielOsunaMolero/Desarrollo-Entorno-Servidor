@@ -93,41 +93,42 @@ class Usuario
 
 
     public function save()
-{
-    try {
-        // Comprobar si la conexión está activa
-        if (!$this->db) {
-            throw new Exception("Error: No hay conexión con la base de datos.");
+    {
+        try {
+            // Verificar si la conexión está activa
+            if (!$this->db) {
+                throw new Exception("Error: No hay conexión con la base de datos.");
+            }
+
+            // Asigna el rol 'user' por defecto si no se ha especificado
+            $rol = empty($this->rol) ? 'user' : $this->rol;
+
+            // Preparar la consulta SQL con placeholders
+            $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, apellidos, email, password, rol) 
+                                    VALUES (?, ?, ?, ?, ?)");
+
+            if (!$stmt) {
+                throw new Exception("Error al preparar la consulta: " . $this->db->error);
+            }
+
+            // Encriptar la contraseña antes de guardarla
+            $hashed_password = password_hash($this->password, PASSWORD_BCRYPT);
+
+            // Asignar valores a la consulta preparada
+            $stmt->bind_param("sssss", $this->nombre, $this->apellidos, $this->email, $hashed_password, $rol);
+
+            // Ejecutar la consulta
+            if (!$stmt->execute()) {
+                throw new Exception("Error en la ejecución de la consulta: " . $stmt->error);
+            }
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error en el registro de usuario: " . $e->getMessage());
+            return false;
         }
-
-        // Preparar la consulta SQL con placeholders
-        $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, apellidos, email, password) 
-                                    VALUES (?, ?, ?, ?)");
-
-        // Verificar si la preparación de la consulta falló
-        if (!$stmt) {
-            throw new Exception("Error al preparar la consulta: " . $this->db->error);
-        }
-
-        // Bind de parámetros
-        $hashed_password = password_hash($this->password, PASSWORD_BCRYPT);
-        $stmt->bind_param("ssss", $this->nombre, $this->apellidos, $this->email, $hashed_password);
-
-        // Ejecutar la consulta
-        $success = $stmt->execute();
-
-        // Si la ejecución falla, mostrar el error de MySQL
-        if (!$success) {
-            throw new Exception("Error en la ejecución de la consulta: " . $stmt->error);
-        }
-
-        return true;
-    } catch (Exception $e) {
-        error_log("Error en el registro de usuario: " . $e->getMessage());
-        echo "Ocurrió un error: " . $e->getMessage(); // Muestra el error en pantalla para depuración
-        return false;
     }
-}
+
 
 
     public function saveAdmin()

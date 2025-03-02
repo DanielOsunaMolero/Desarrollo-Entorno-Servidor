@@ -1,16 +1,14 @@
 <div id="registro">
     <h1>Registro de Usuario</h1>
 
-
-    <?php if(isset($_SESSION['success_message'])): ?>
+    <?php if (isset($_SESSION['success_message'])) : ?>
         <div class="alert_green" style="color: white;">
             <?= $_SESSION['success_message']; ?>
         </div>
         <?php unset($_SESSION['success_message']); ?>
     <?php endif; ?>
 
-
-    <?php if(isset($_SESSION['error_message'])): ?>
+    <?php if (isset($_SESSION['error_message'])) : ?>
         <div class="alert_red">
             <?= $_SESSION['error_message']; ?>
         </div>
@@ -30,9 +28,10 @@
         <label for="password">Contraseña</label>
         <input type="password" name="password" required />
 
-        <input type="submit" value="Registrarse"/>
+        <input type="submit" value="Registrarse" />
     </form>
 </div>
+
 
 
 
