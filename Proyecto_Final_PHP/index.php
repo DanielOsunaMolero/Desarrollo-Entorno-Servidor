@@ -1,11 +1,8 @@
 <?php
-//Controlador frontal: es aquel que se encarga de cargar ficheros, acciones en 
-// función de los parametros de la URL es el único fichero que se encarga de cargarlo 
-// absolutamente todo, este index es un ejemplo 
+
 
 //Iniciar la sesión
 session_start();
-
 // Llamo a los controladores a través del autoload
 require_once 'autoload.php'; // Archivo autoload
 require_once 'config/db.php'; //Conexión a la base de datos.
@@ -22,10 +19,10 @@ function show_error(){
 }
 
 if(isset($_GET['controller'])){
-    //Sí existe el controlador haga:
+    
    $nombre_controlador = $_GET['controller'].'Controller';
 }elseif(!isset ($_GET['controller']) && !isset ($_GET['action'])){
-    //Sí no existe el controlador y la acción, debe cargar el controlador default
+    
     // configurado en el .htaccess 
     $nombre_controlador = controller_default;
 }else{
@@ -33,7 +30,7 @@ if(isset($_GET['controller'])){
     show_error();
     exit();
 }
-// comprobando que el controlador exista
+
 if(isset($nombre_controlador) && class_exists($nombre_controlador)){
 
     //Creo un nuevo objeto de la clase controladora
@@ -43,8 +40,7 @@ if(isset($nombre_controlador) && class_exists($nombre_controlador)){
         $action = $_GET['action'];
         $controlador->$action();
     }elseif(!isset ($_GET['controller']) && !isset ($_GET['action'])){
-    //Sí no existe el controlador y la acción, debe cargar el controlador default
-    // configurado en el .htaccess 
+
         $action_default = action_default;
         $controlador->$action_default();
     }else{

@@ -214,16 +214,16 @@ class productoController
         // Obtenemos la categoría
         $categoria = new Categoria();
         $categoria->setId($categoria_id);
-        $categoria_actual = $categoria->getById($categoria_id); // Añade $categoria_id
+        $categoria_actual = $categoria->getById($categoria_id); 
 
-        // Verifica que la categoría exista
+       
         if (!$categoria_actual) {
             $_SESSION['error'] = "La categoría seleccionada no existe.";
             header("Location:" . base_url);
             exit();
         }
 
-        // Obtenemos los productos de esa categoría
+        
         $producto = new Producto();
         $productos = $producto->getByCategoria($categoria_id);
 

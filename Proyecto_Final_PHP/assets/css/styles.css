@@ -151,31 +151,31 @@ header {
   flex-direction: column;
   gap: 20px;
   padding: 15px;
-  background-color: #1E2738; /* Azul oscuro elegante */
+  background-color: #1E2738; 
   min-height: 500px;
-  border-right: 2px solid #0D121C; /* Borde más sutil */
+  border-right: 2px solid #0D121C;
 }
 
-/* 🎯 Botones en sidebar con efecto suave */
+
 .botones-sidebar {
   display: block;
-  background-color: #18A87E; /* Verde suave */
+  background-color: #18A87E; 
   color: #F0F0F0;
   border: 2px solid #18A87E;
   border-radius: 10px;
   text-transform: uppercase;
   font-weight: bold;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0px 0px 6px rgba(24, 168, 126, 0.5); /* Efecto más tenue */
+  box-shadow: 0px 0px 6px rgba(24, 168, 126, 0.5); 
   margin-top: 10px;
   font-size: 18px;
   padding: 12px;
   width: 100%;
 }
 
-/* 🌟 Hover con tonos menos agresivos */
+
 .botones-sidebar:hover {
-  background-color: #A84DB6; /* Púrpura más apagado */
+  background-color: #A84DB6; 
   color: #FFF;
   box-shadow: 0px 0px 10px rgba(168, 77, 182, 0.5);
   transform: scale(1.05);
@@ -203,14 +203,14 @@ nav {
   box-shadow: 0px 4px 10px rgba(0, 255, 171, 0.5);
 }
 
-/* Contenedor de los elementos del menú */
+
 nav ul {
   display: flex;
   gap: 20px;
   list-style: none;
 }
 
-/* Links del menú */
+
 nav a {
   color: #FFD700;
   text-decoration: none;
@@ -223,7 +223,7 @@ nav a {
   position: relative;
 }
 
-/* Efecto de neón en hover */
+
 nav a:hover {
   color: #000;
   background-color: #00FFAB;
@@ -232,7 +232,7 @@ nav a:hover {
   transform: scale(1.05);
 }
 
-/* Efecto resplandor cuando el usuario está sobre un enlace */
+
 nav a::before {
   content: "";
   position: absolute;
@@ -255,7 +255,7 @@ nav a:hover::before {
 main {
   grid-area: main;
   display: grid;
-  grid-template-columns: 15% 1fr; /* Sidebar (15%) - Contenido (resto) */
+  grid-template-columns: 15% 1fr; 
   gap: 20px;
   
   background-color: #1A1A2E ;
@@ -303,7 +303,7 @@ h3{
 }
 
 
-/* 🎯 ESTILO GENERAL PARA INPUTS Y TEXTAREAS */
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -323,7 +323,7 @@ textarea {
   box-shadow: 0px 0px 8px rgba(0, 255, 171, 0.4);
 }
 
-/* 🎆 Efecto de neón cuando el input está en foco */
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -333,7 +333,7 @@ textarea:focus {
   transform: scale(1.03);
 }
 
-/* 🎮 BOTONES ESTILO NEÓN */
+
 input[type="button"],
 input[type="submit"],
 button,
@@ -357,7 +357,7 @@ button,
   margin-left: 0%;
 }
 
-/* 🕶️ EFECTO GLOW EN HOVER */
+
 input[type="button"]:hover,
 input[type="submit"]:hover,
 button:hover,
@@ -370,19 +370,19 @@ button:hover,
 
 
 
-/* 🎯 ESTILO PARA LABELS */
+/* ESTILO PARA LABELS */
 label {
   display: block;
   font-size: 16px;
   font-weight: bold;
-  color: #FFD700; /* Amarillo neón */
+  color: #FFD700;
   margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.7);
 }
 
-/* 🎮 ESTILO PARA BOTONES */
+
 input[type="button"] {
   display: block;
   text-align: center;
@@ -402,7 +402,7 @@ input[type="button"] {
   box-shadow: 0px 0px 12px rgba(0, 255, 171, 0.8);
 }
 
-/* 🕶️ EFECTO GLOW EN HOVER */
+
 input[type="button"]:hover {
   background: linear-gradient(90deg, #FF00FF, #FFD700);
   box-shadow: 0px 0px 20px #FFD700;
@@ -410,7 +410,6 @@ input[type="button"]:hover {
 }
 
 
-/* 🔥 CONTENEDOR DE PRODUCTOS */
 #products-container {
   display: grid;
   grid-template-columns: repeat(4, minmax(250px, 1fr)); 
@@ -420,7 +419,7 @@ input[type="button"]:hover {
   width: 100%;
 }
 
-/* 📦 ESTILO PARA CADA PRODUCTO */
+
 .product {
   display: flex;
   flex-direction: column;
@@ -429,19 +428,19 @@ input[type="button"]:hover {
   height: auto;
   padding: 20px;
   border-radius: 20px;
-  background: linear-gradient(145deg, #161A30, #1F1D36); /* Fondo oscuro futurista */
+  background: linear-gradient(145deg, #161A30, #1F1D36); 
   border: 2px solid #00FFAB;
   box-shadow: 0px 0px 15px rgba(0, 255, 171, 0.6);
   transition: all 0.3s ease-in-out;
 }
 
-/* ✨ EFECTO HOVER EN PRODUCTO */
+
 .product:hover {
   transform: scale(1.05);
   box-shadow: 0px 0px 25px rgba(255, 0, 255, 0.7);
 }
 
-/* 🎭 IMAGEN DEL PRODUCTO */
+
 .product img {
   height: 250px;
   width: 100%;
@@ -452,13 +451,13 @@ input[type="button"]:hover {
   transition: transform 0.3s ease-in-out;
 }
 
-/* 🎬 EFECTO HOVER EN IMAGEN */
+
 .product img:hover {
   transform: scale(1.1);
   box-shadow: 0px 0px 15px rgba(255, 0, 255, 0.8);
 }
 
-/* 🎯 TEXTO DEL PRODUCTO */
+
 .product h2 {
   font-size: 20px;
   color: #FFD700;
@@ -466,7 +465,6 @@ input[type="button"]:hover {
   margin-bottom: 5px;
 }
 
-/* 💰 PRECIO */
 .product p {
   font-size: 18px;
   font-weight: bold;
@@ -474,7 +472,7 @@ input[type="button"]:hover {
   margin-bottom: 10px;
 }
 
-/* 🎮 BOTÓN DE COMPRA */
+
 .boton-producto {
   display: inline-block;
   color: #000;
@@ -489,7 +487,7 @@ input[type="button"]:hover {
   box-shadow: 0px 0px 10px #FFD700;
 }
 
-/* 🕹️ EFECTO HOVER EN BOTÓN */
+
 .boton-producto:hover {
   background: linear-gradient(90deg, #FF00FF, #FFD700);
   box-shadow: 0px 0px 20px #FFD700;
@@ -534,7 +532,7 @@ ul {
 }
 
 
-/* 🔥 CONTENEDOR PRINCIPAL */
+
 #gestionar-categorias {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -547,7 +545,6 @@ ul {
   
 }
 
-/* 🎯 TÍTULO CON EFECTO NEÓN */
 #gestionar-categorias h1 {
   font-size: 40px;
   font-weight: bold;
@@ -557,7 +554,7 @@ ul {
   padding: 10px;
 }
 
-/* 🛠️ FORMULARIO DE CREACIÓN */
+
 #crear-categoria {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -571,7 +568,7 @@ ul {
   margin-left: 25%;
 }
 
-/* 📩 ESTILO DE LOS INPUTS */
+
 #crear-categoria input[type="text"] {
   background-color: #16213E;
   color: #FFD700;
@@ -583,13 +580,13 @@ ul {
   transition: all 0.3s ease-in-out;
 }
 
-/* 🔍 EFECTO AL ESCRIBIR EN INPUT */
+
 #crear-categoria input[type="text"]:focus {
   border-color: #FF00FF;
   box-shadow: 0px 0px 12px #FF00FF;
 }
 
-/* 🎮 BOTÓN DE CREACIÓN */
+
 .boton_crear {
   display: inline-block;
   background: linear-gradient(90deg, #6cf9ca, #f779f7);
@@ -609,17 +606,17 @@ ul {
   
 }
 
-/* ✨ EFECTO HOVER EN BOTÓN */
+
 .boton_crear:hover {
   color: white;
   box-shadow: 0px 0px 20px #FFD700;
   transform: scale(1.1);
 }
 
-/* 🎨 ESTILO MODERNO PARA TABLAS */
+
 .table-container {
   width: 100%;
-  overflow-x: auto; /* Para que sea responsive */
+  overflow-x: auto; 
 }
 
 /* REGISTRO */
@@ -641,7 +638,7 @@ ul {
 
 /*GESTION PRODUCTOS*/
 
-/* 🔥 CONTENEDOR PRINCIPAL */
+
 #gestion-productos {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -652,7 +649,7 @@ ul {
   box-shadow: 0px 0px 15px rgba(0, 255, 171, 0.6);
 }
 
-/* 🎯 TÍTULO CON EFECTO NEÓN */
+
 #gestion-productos h1 {
   font-size: 40px;
   font-weight: bold;
@@ -662,7 +659,7 @@ ul {
   padding: 10px;
 }
 
-/* 🎮 BOTÓN DE CREACIÓN */
+
 .boton_crear2 {
   display: inline-block;
   background: linear-gradient(90deg, #6cf9ca, #f779f7);
@@ -680,14 +677,14 @@ ul {
   transition: all 0.3s ease-in-out;
 }
 
-/* ✨ EFECTO HOVER EN BOTÓN */
+
 .boton_crear2:hover {
   color: white;
   box-shadow: 0px 0px 20px #FFD700;
   transform: scale(1.1);
 }
 
-/* 🛠️ FORMULARIO DE CREACIÓN */
+
 #crear_producto {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -699,7 +696,7 @@ ul {
   margin-left: 25%;
 }
 
-/* 📩 ESTILO DE LOS INPUTS */
+
 #crear_producto input[type="text"],
 #crear_producto input[type="number"],
 #crear_producto select {
@@ -713,7 +710,7 @@ ul {
   transition: all 0.3s ease-in-out;
 }
 
-/* 🔍 EFECTO AL ESCRIBIR EN INPUT */
+
 #crear_producto input[type="text"]:focus,
 #crear_producto input[type="number"]:focus,
 #crear_producto select:focus {
@@ -721,7 +718,7 @@ ul {
   box-shadow: 0px 0px 12px #FF00FF;
 }
 
-/* 🎯 BOTÓN DE ENVÍO */
+
 #crear_producto input[type="submit"] {
   background: linear-gradient(90deg, #FFD700, #FF5733);
   color: black;
@@ -736,7 +733,7 @@ ul {
   width: 40%;
 }
 
-/* ✨ EFECTO HOVER EN BOTÓN DE ENVÍO */
+
 #crear_producto input[type="submit"]:hover {
   background: linear-gradient(90deg, #FF5733, #FFD700);
   box-shadow: 0px 0px 20px #FFD700;
@@ -744,7 +741,7 @@ ul {
 }
 
 
-/* 👥 CONTENEDOR PRINCIPAL */
+
 #gestion_usuarios {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -761,7 +758,7 @@ ul {
   margin-left: 25%;
 }
 
-/* 🏆 TÍTULO PRINCIPAL */
+
 #gestion_usuarios h1 {
   font-size: 40px;
   font-weight: bold;
@@ -771,7 +768,7 @@ ul {
   padding: 10px;
 }
 
-/* 📝 CAMPOS DE TEXTO */
+
 #gestion_usuarios input,
 #gestion_usuarios select {
   width: 60%;
@@ -786,14 +783,14 @@ ul {
   justify-content: center;
 }
 
-/* 🔍 EFECTO AL ENFOCAR INPUT */
+
 #gestion_usuarios input:focus,
 #gestion_usuarios select:focus {
   border-color: #FF00FF;
   box-shadow: 0px 0px 12px #FF00FF;
 }
 
-/* ✨ BOTÓN PRINCIPAL */
+
 #gestion_usuarios input[type="submit"] {
   background: linear-gradient(90deg, #FFD700, #FF5733);
   color: black;
@@ -809,14 +806,14 @@ ul {
   margin-left: 0%;
 }
 
-/* 🎯 EFECTO HOVER EN BOTÓN */
+
 #gestion_usuarios input[type="submit"]:hover {
   background: linear-gradient(90deg, #FF5733, #FFD700);
   box-shadow: 0px 0px 20px #FFD700;
   transform: scale(1.1);
 }
 
-/* 🔗 ENLACES SUELTOS */
+
 .enlaces_sueltos {
   text-decoration: none;
   color: white;
@@ -828,7 +825,7 @@ ul {
   transition: all 0.3s ease-in-out;
 }
 
-/* ✨ EFECTO HOVER EN ENLACES */
+
 .enlaces_sueltos:hover {
   background: linear-gradient(90deg, #FF5733, #FFD700);
   box-shadow: 0px 0px 12px #FFD700;

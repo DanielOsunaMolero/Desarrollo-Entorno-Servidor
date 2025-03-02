@@ -157,7 +157,7 @@ class Usuario
                 email = '{$this->getEmail()}'";
 
         if (!empty($this->password)) {
-            $sql .= ", password = '{$this->password}'"; // La contraseña ya viene hasheada
+            $sql .= ", password = '{$this->password}'"; 
         }
 
         // Solo actualizar el rol si el usuario es admin
